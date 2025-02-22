@@ -45,7 +45,7 @@ public class PlayerMovement : MonoBehaviour
             rb.linearVelocity = new Vector2(movX * movementSpeed, rb.linearVelocity.y);
 
             float direction = Mathf.Sign(movX);
-            transform.localScale = new Vector3(direction, 1, 1);
+            transform.localScale = new Vector3(direction * 2, 2, 2);
             animator.SetBool("Walking", true);
         }
         else
