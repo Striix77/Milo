@@ -45,7 +45,7 @@ public class PlayerMovement : MonoBehaviour
             rb.linearVelocity = new Vector2(movX * movementSpeed, rb.linearVelocity.y);
 
             float direction = Mathf.Sign(movX);
-            transform.localScale = new Vector3(direction * 2, 2, 2);
+            transform.localScale = new Vector3(direction * 3, 3, 3);
             animator.SetBool("Walking", true);
         }
         else
@@ -72,7 +72,7 @@ public class PlayerMovement : MonoBehaviour
         {
             return;
         }
-        CheckForGround();
+        // CheckForGround();
         CheckForFalling();
         if (grounded && movX == 0 && movY == 0)
         {
@@ -86,10 +86,26 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void CheckForGround()
+    // void CheckForGround()
+    // {
+    //     grounded = Physics2D.OverlapAreaAll(groundCheck.bounds.min, groundCheck.bounds.max, groundMask).Length > 0;
+    // }
+
+    void OnCollisionEnter2D(Collision2D collision2)
     {
-        grounded = Physics2D.OverlapAreaAll(groundCheck.bounds.min, groundCheck.bounds.max, groundMask).Length > 0;
-        animator.SetBool("OnGround", grounded);
+        if (collision2.gameObject.CompareTag("Ground"))
+        {
+            grounded = true;
+            animator.SetBool("OnGround", grounded);
+        }
+    }
+
+    void OnCollisionExit2D(Collision2D collision2)
+    {
+        if (collision2.gameObject.CompareTag("Ground"))
+        {
+            grounded = false;
+        }
     }
 
     void CheckForFalling()

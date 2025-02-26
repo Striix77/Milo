@@ -1,0 +1,20 @@
+@echo off
+
+if "%1"=="" (
+    echo Commit message is required.
+    exit /b
+)
+
+
+:: Add all changes
+git add .
+
+:: Commit with the provided message
+git commit -m "%*"
+
+:: Push changes to the remote repository
+git push origin main
+
+:: Done
+echo Commit successful!
+pause
