@@ -45,4 +45,6 @@ Main character is twice the size of the tilemap (moreso in length) - wich expres
 
 Avoid making the player feel floaty
 
+randomly generated levels?
+
 https://www.youtube.com/watch?v=Oet5jqoX14E ---- Somewhat perfect roadmap example
