@@ -45,6 +45,16 @@ Main character is twice the size of the tilemap (moreso in length) - wich expres
 
 Avoid making the player feel floaty
 
+Ground/Air Acceleration + Deceleration
+Gravity Controls
+Clamped Fall Speed
+Jump Cut Controls - how fast you start falling after releasing the jump button
+Apex Hang Time
+Jump Buffer
+Coyote Time
+
+https://www.youtube.com/watch?v=zHSWG05byEc - Perfected movement
+
 randomly generated levels?
 
 https://www.youtube.com/watch?v=Oet5jqoX14E ---- Somewhat perfect roadmap example

@@ -50,6 +50,31 @@ public class PlayerMovementStats : ScriptableObject
     public float InitialJumpVelocity { get; private set; }
     public float AdjustedJumpHeight { get; private set; }
 
+    [Header("Dashing")]
+    [Range(0f, 1f)] public float DashTime = 0.11f;
+    [Range(1f, 200f)] public float DashSpeed = 40f;
+    [Range(0f, 1f)] public float DashCooldown = 0.5f;
+    [Range(0, 5)] public int NumberOfDashes = 2;
+    [Range(0f, 0.5f)] public float DashDiagonalBias = 0.4f;
+    [Range(0.01f, 5f)] public float DashGravityOnReleaseMultiplier = 1f;
+    [Range(0.02f, 0.3f)] public float DashTimeForUpwardsCancel = 0.027f;
+    [Range(0f, 1f)] public float DashMomentumRetention = 0.5f;
+
+    public readonly Vector2[] DashDirections = new Vector2[]
+    {
+        new Vector2(0, 0), // No Dash
+        new Vector2(1, 0), // Right
+        new Vector2(1, 1).normalized, // Right Up
+        new Vector2(0, 1), // Up
+        new Vector2(-1, 1).normalized, // Left Up
+        new Vector2(-1, 0), // Left
+        new Vector2(-1, -1).normalized, // Left Down
+        new Vector2(0, -1), // Down
+        new Vector2(1, -1).normalized, // Right Down
+    };
+
+
+
     private void OnValidate()
     {
         CalculateGravityAndJump();
