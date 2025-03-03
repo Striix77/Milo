@@ -56,6 +56,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isDashFastFalling;
     private float dashFastFallTime;
     private float dashFastFallReleaseSpeed;
+    
 
     // Animations
     private Animator animator;
@@ -462,10 +463,13 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isDashing)
         {
+            animator.SetBool("Dashing", true);
+            PlayerMovementStats.createGhost = true;
             //stop dash after timer
             dashTimer += Time.fixedDeltaTime;
             if (dashTimer >= MovementStats.DashTime)
             {
+                animator.SetBool("Dashing", false);
                 if (isGrounded)
                 {
                     ResetDashes();
@@ -473,6 +477,7 @@ public class PlayerMovement : MonoBehaviour
 
                 isAirDashing = false;
                 isDashing = false;
+                PlayerMovementStats.createGhost = false;
 
                 if (!isJumping)
                 {

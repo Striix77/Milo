@@ -41,8 +41,8 @@ MonoBehaviour:
   DrawRight: 1
   ArcResolution: 20
   VisualizationSteps: 90
-  DashTime: 0.11
-  DashSpeed: 40
+  DashTime: 0.148
+  DashSpeed: 35
   DashCooldown: 0.5
   NumberOfDashes: 2
   DashDiagonalBias: 0.4

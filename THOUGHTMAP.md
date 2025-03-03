@@ -53,7 +53,7 @@ Apex Hang Time
 Jump Buffer
 Coyote Time
 
-https://www.youtube.com/watch?v=zHSWG05byEc - Perfected movement
+https://www.youtube.com/watch?v=zHSWG05byEc , https://www.youtube.com/watch?v=j1HN7wsFHcY - Perfected movement
 
 randomly generated levels?
 
