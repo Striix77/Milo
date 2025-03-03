@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     public PlayerMovementStats MovementStats;
     [SerializeField] private Collider2D bodyCollider;
     [SerializeField] private Collider2D feetCollider;
+    [SerializeField] private GameObject visualContainer;
 
     private Rigidbody2D rb;
 
@@ -56,7 +57,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isDashFastFalling;
     private float dashFastFallTime;
     private float dashFastFallReleaseSpeed;
-    
+
 
     // Animations
     private Animator animator;
@@ -65,7 +66,7 @@ public class PlayerMovement : MonoBehaviour
     {
         isFacingRight = true;
         rb = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
+        animator = visualContainer.GetComponentInChildren<Animator>();
     }
 
     private void Update()
@@ -85,6 +86,7 @@ public class PlayerMovement : MonoBehaviour
         Jump();
         Fall();
         Dash();
+        ApplyVelocityRotation();
 
         if (isGrounded)
         {
@@ -138,6 +140,9 @@ public class PlayerMovement : MonoBehaviour
             numberOfJumpsUsed = 0;
             VerticalVelocity = Physics2D.gravity.y;
             ResetDashes();
+
+            //Reset rotation after landing
+            visualContainer.transform.rotation = Quaternion.Euler(0, isFacingRight ? 0 : 180, 0);
 
             if (isDashFastFalling && isGrounded)
             {
@@ -367,6 +372,45 @@ public class PlayerMovement : MonoBehaviour
 
         //Clamp fall speed
         VerticalVelocity = Mathf.Clamp(VerticalVelocity, -MovementStats.MaxFallSpeed, 50f);
+    }
+
+    private void ApplyVelocityRotation()
+    {
+        if (!MovementStats.EnableJumpRotation || isGrounded)
+            return;
+
+        if (isJumping || isFalling || isDashFastFalling)
+        {
+            // Calculate rotation angle based on velocity
+            float targetRotation = 0f;
+
+            // Calculate angle from velocity
+            if (Mathf.Abs(VerticalVelocity) > 0.1f)
+            {
+                // Calculate angle in degrees from velocity vector
+                targetRotation = Mathf.Atan2(VerticalVelocity, HorizontalVelocity) * Mathf.Rad2Deg;
+
+                // Adjust based on facing direction
+                if (!isFacingRight)
+                    targetRotation = 180 - targetRotation;
+                // Create rotation based on velocity direction
+                Quaternion newRotation = Quaternion.Euler(0, isFacingRight ? 0 : 180, targetRotation);
+
+                // Smoothly interpolate to the target rotation unless Milo is dashing
+                if (isDashing)
+                { visualContainer.transform.rotation = newRotation; }
+                else
+                {
+                    if (VerticalVelocity > 0)
+                        visualContainer.transform.rotation = Quaternion.Slerp(visualContainer.transform.rotation, newRotation, MovementStats.PositiveVelocityRotationSpeed * Time.fixedDeltaTime);
+                    else
+                    {
+                        visualContainer.transform.rotation = Quaternion.Slerp(visualContainer.transform.rotation, newRotation, MovementStats.NegativeVelocityRotationSpeed * Time.fixedDeltaTime);
+                    }
+                }
+            }
+
+        }
     }
 
     private void ResetJumpValues()

@@ -31,6 +31,9 @@ MonoBehaviour:
   GravityOnReleaseMultiplier: 1.5
   MaxFallSpeed: 15
   NumberOfJumps: 2
+  PositiveVelocityRotationSpeed: 1.1
+  NegativeVelocityRotationSpeed: 2.34
+  EnableJumpRotation: 0
   TimeForUpwardsCancel: 0.03
   ApexThreshold: 0.901
   ApexTime: 0.048

@@ -25,6 +25,9 @@ public class PlayerMovementStats : ScriptableObject
     [Range(0.01f, 5f)] public float GravityOnReleaseMultiplier = 2f;
     public float MaxFallSpeed = 26f;
     [Range(1, 5)] public int NumberOfJumps = 2;
+    [Range(1f, 5f)] public float PositiveVelocityRotationSpeed = 5f;
+    [Range(1f, 5f)] public float NegativeVelocityRotationSpeed = 5f;
+    public bool EnableJumpRotation = true;
 
     [Header("Jump Cut")]
     [Range(0.02f, 0.3f)] public float TimeForUpwardsCancel = 0.03f;
