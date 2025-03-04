@@ -249,6 +249,7 @@ public class PlayerMovement : MonoBehaviour
         else if (jumpBufferTimer > 0f && (isJumping || isAirDashing || isDashFastFalling) && numberOfJumpsUsed < MovementStats.NumberOfJumps)
         {
             isFastFalling = false;
+            isFalling = false;
             InitiateJump(1);
 
             if (isDashFastFalling)
@@ -657,36 +658,61 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isGrounded)
         {
-            animator.SetBool("OnGround", true);
+            if (isDashing)
+            {
+                PlayerAnimations.CrossFade(animator, PlayerAnimations.Dash, 0.1f);
+            }
+            else if (InputManager.Movement.x != 0)
+            {
+                PlayerAnimations.CrossFade(animator, PlayerAnimations.Walk, 0.1f);
+            }
+            else if (PlayerAnimations.GetState() == PlayerAnimations.Fall)
+            {
+                PlayerAnimations.CrossFade(animator, PlayerAnimations.Land, 0.1f);
+            }
+            else
+            {
+                if (PlayerAnimations.GetState() == PlayerAnimations.Land)
+                {
+                    PlayerAnimations.CrossFade(animator, PlayerAnimations.Idle, 0.03f);
+                }
+                else
+                {
+                    PlayerAnimations.CrossFade(animator, PlayerAnimations.Idle, 0.1f);
+                }
+            }
         }
         else
         {
-            animator.SetBool("OnGround", false);
+            if (isDashing)
+            {
+                PlayerAnimations.CrossFade(animator, PlayerAnimations.Dash, 0.1f);
+            }
+            else if (isFalling || isFastFalling || isDashFastFalling || isPastApex)
+            {
+                PlayerAnimations.CrossFade(animator, PlayerAnimations.Fall, 0.1f);
+            }
+            else if (isJumping)
+            {
+                PlayerAnimations.CrossFade(animator, PlayerAnimations.Jump, 0.1f);
+            }
         }
-        if (InputManager.Movement.x != 0 && isGrounded)
-        {
-            animator.SetBool("Walking", true);
-        }
-        else
-        {
-            animator.SetBool("Walking", false);
-        }
-        if (isJumping)
-        {
-            animator.SetBool("Jumping", true);
-        }
-        else
-        {
-            animator.SetBool("Jumping", false);
-        }
-        if (isFalling || isFastFalling || isPastApex)
-        {
-            Debug.Log("Falling");
-            animator.SetBool("Falling", true);
-        }
-        else
-        {
-            animator.SetBool("Falling", false);
-        }
+        // if (isJumping)
+        // {
+        //     animator.SetBool("Jumping", true);
+        // }
+        // else
+        // {
+        //     animator.SetBool("Jumping", false);
+        // }
+        // if (isFalling || isFastFalling || isPastApex)
+        // {
+        //     Debug.Log("Falling");
+        //     animator.SetBool("Falling", true);
+        // }
+        // else
+        // {
+        //     animator.SetBool("Falling", false);
+        // }
     }
 }

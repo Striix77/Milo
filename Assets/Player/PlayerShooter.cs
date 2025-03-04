@@ -10,6 +10,7 @@ public class PlayerShooter : MonoBehaviour
     public Transform playerPos;
     public Transform attackPos;
     public GameObject shadowAttack1;
+    public GameObject PeaBoom;
 
     private float timeBtwFire;
     public float startTimeBtwFire;
@@ -21,8 +22,10 @@ public class PlayerShooter : MonoBehaviour
         {
             if (Input.GetMouseButton(0))
             {
+                GameObject boom = Instantiate(PeaBoom, attackPos.position, Quaternion.identity);
                 Instantiate(shadowAttack1, attackPos.position, Quaternion.identity);
                 timeBtwFire = startTimeBtwFire;
+                Destroy(boom, 0.3f);
             }
         }
         else

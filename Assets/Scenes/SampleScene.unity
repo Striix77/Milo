@@ -2597,7 +2597,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.07596057, y: -0.17623624}
+  m_Offset: {x: -0.016174272, y: -0.17623624}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -2607,7 +2607,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.41322148, y: 0.10278523}
+  m_Size: {x: 0.5327941, y: 0.10278523}
   m_EdgeRadius: 0
 --- !u!1 &757997457
 GameObject:
@@ -3202,6 +3202,7 @@ MonoBehaviour:
   playerPos: {fileID: 1981441838}
   attackPos: {fileID: 1067236870}
   shadowAttack1: {fileID: 8357097271590506715, guid: b26bdf78457dfab41a9409f232738b6b, type: 3}
+  PeaBoom: {fileID: 7919457680422517786, guid: 9717a18d664459c49af472e5cc493ee0, type: 3}
   startTimeBtwFire: 0.5
 --- !u!1 &1503104436
 GameObject:
@@ -3215,6 +3216,7 @@ GameObject:
   - component: {fileID: 1503104439}
   - component: {fileID: 1503104438}
   - component: {fileID: 1503104440}
+  - component: {fileID: 1503104441}
   m_Layer: 6
   m_Name: MiloSprite
   m_TagString: Untagged
@@ -3247,7 +3249,7 @@ Animator:
   m_GameObject: {fileID: 1503104436}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 3dc78d0be5e4a804d8c8bf8b3471a97d, type: 2}
+  m_Controller: {fileID: 9100000, guid: c51fd7b487b4e5b4e91150a140a38ff1, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -3329,6 +3331,18 @@ MonoBehaviour:
   ghostDelay: 0.035
   ghostLife: 1
   ghostPrefab: {fileID: 7263337111717189816, guid: e2c230844bd98d74f8aa4923cd3fee47, type: 3}
+--- !u!114 &1503104441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1503104436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aba105e21db7afb419a936e35ddb7fb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1652691111
 GameObject:
   m_ObjectHideFlags: 0
@@ -3571,8 +3585,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.010794005, y: 0.0023996648}
-  m_Size: {x: 0.5898074, y: 0.32354343}
+  m_Offset: {x: -0.047775157, y: 0.0023996693}
+  m_Size: {x: 0.51586, y: 0.32355285}
   m_Direction: 1
 --- !u!1 &1981441835
 GameObject:
