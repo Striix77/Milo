@@ -2991,6 +2991,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1006519031
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1006519032}
+  m_Layer: 6
+  m_Name: MiloShootinPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1006519032
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1006519031}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.079, y: 0.129, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1981441838}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1050444623
 GameObject:
   m_ObjectHideFlags: 0
@@ -3200,9 +3231,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 519420031}
   playerPos: {fileID: 1981441838}
-  attackPos: {fileID: 1067236870}
+  attackPos: {fileID: 1006519032}
   shadowAttack1: {fileID: 8357097271590506715, guid: b26bdf78457dfab41a9409f232738b6b, type: 3}
-  PeaBoom: {fileID: 7919457680422517786, guid: 9717a18d664459c49af472e5cc493ee0, type: 3}
+  PeaBoom: {fileID: 2104849334990958920, guid: 9717a18d664459c49af472e5cc493ee0, type: 3}
   startTimeBtwFire: 0.5
 --- !u!1 &1503104436
 GameObject:
@@ -3678,6 +3709,7 @@ Transform:
   m_Children:
   - {fileID: 208376139}
   - {fileID: 2070417376}
+  - {fileID: 1006519032}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1981441841
