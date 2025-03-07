@@ -11,9 +11,12 @@ public class PlayerShooter : MonoBehaviour
     public Transform attackPos;
     public GameObject shadowAttack1;
     public GameObject PeaBoom;
+    public LineRenderer lineRenderer;
+    private Vector3[] SegmentPos;
 
     private float timeBtwFire;
     public float startTimeBtwFire;
+
 
     void Update()
     {
@@ -22,8 +25,17 @@ public class PlayerShooter : MonoBehaviour
         {
             if (Input.GetMouseButton(0))
             {
-                GameObject boom = Instantiate(PeaBoom, attackPos.position, Quaternion.identity);
-                Instantiate(shadowAttack1, attackPos.position, Quaternion.identity);
+
+                if (SegmentPos == null || SegmentPos.Length != lineRenderer.positionCount)
+                {
+                    SegmentPos = new Vector3[lineRenderer.positionCount];
+                    Debug.Log(SegmentPos);
+                }
+
+                lineRenderer.GetPositions(SegmentPos);
+                Vector3 spawnPos = SegmentPos[SegmentPos.Length - 1];
+                GameObject boom = Instantiate(PeaBoom, spawnPos, Quaternion.identity);
+                Instantiate(shadowAttack1, spawnPos, Quaternion.identity);
                 timeBtwFire = startTimeBtwFire;
                 Destroy(boom, 0.3f);
             }
