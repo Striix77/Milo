@@ -29,7 +29,6 @@ public class PlayerShooter : MonoBehaviour
                 if (SegmentPos == null || SegmentPos.Length != lineRenderer.positionCount)
                 {
                     SegmentPos = new Vector3[lineRenderer.positionCount];
-                    Debug.Log(SegmentPos);
                 }
 
                 lineRenderer.GetPositions(SegmentPos);

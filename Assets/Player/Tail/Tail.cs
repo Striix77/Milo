@@ -11,14 +11,23 @@ public class Tail : MonoBehaviour
     public float TargetDist;
     public float SmoothSpeed;
 
+    public Transform PlayerTransform;
+    private Vector2 origTextureScale;
+
     // New mouse following parameters
     public float MouseFollowSpeed = 5.0f;
     public Camera mainCamera;
     private Vector3 lastSegmentVelocity;
 
+    // Jump offset
+    [SerializeField][Range(0.0f, 0.3f)] private float jumpOffset = 0.05f;
+    [SerializeField][Range(0.0f, 0.3f)] private float fallOffset = 0.05f;
+    private Vector3 originalTargetDirLocalPos;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        origTextureScale = lineRenderer.textureScale;
         lineRenderer.positionCount = Length;
         SegmentPos = new Vector3[Length];
         SegmentV = new Vector3[Length];
@@ -33,11 +42,57 @@ public class Tail : MonoBehaviour
         if (mainCamera == null)
             mainCamera = Camera.main;
 
+        // Store original position of target dir
+        if (TargetDir != null)
+            originalTargetDirLocalPos = TargetDir.localPosition;
+
+
         lastSegmentVelocity = Vector3.zero;
     }
 
-    // Update is called once per frame
     void Update()
+    {
+        SetTextureWithDirection();
+        OffsetTailForJump();
+        TailMouseFollow();
+    }
+
+    private void SetTextureWithDirection()
+    {
+        Debug.Log(origTextureScale);
+        if (PlayerTransform == null)
+            return;
+        if (PlayerTransform.rotation.y > 0)
+        {
+            lineRenderer.textureScale = new Vector2(origTextureScale.x, origTextureScale.y);
+        }
+        else
+        {
+            lineRenderer.textureScale = new Vector2(origTextureScale.x, -origTextureScale.y);
+        }
+    }
+
+    private void OffsetTailForJump()
+    {
+        if (TargetDir == null)
+            return;
+
+        // If player is jumping, move the tail up
+        if (PlayerAnimations.GetState() == PlayerAnimations.Jump)
+        {
+            TargetDir.localPosition = originalTargetDirLocalPos + Vector3.up * jumpOffset;
+        }
+        else if (PlayerAnimations.GetState() == PlayerAnimations.Fall)
+        {
+            TargetDir.localPosition = originalTargetDirLocalPos + Vector3.up * fallOffset;
+        }
+        else
+        {
+            TargetDir.localPosition = originalTargetDirLocalPos;
+        }
+    }
+
+    private void TailMouseFollow()
     {
         // First segment follows the target as before
         SegmentPos[0] = TargetDir.position;
@@ -86,5 +141,10 @@ public class Tail : MonoBehaviour
         }
 
         lineRenderer.SetPositions(SegmentPos);
+    }
+
+    private void MoveTailWithAnimations()
+    {
+
     }
 }
