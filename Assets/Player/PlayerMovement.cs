@@ -20,16 +20,16 @@ public class PlayerMovement : MonoBehaviour
     private bool isFacingRight;
 
     // Collision
-    private bool isGrounded;
+    public static bool isGrounded;
     private bool isHeadBumped;
     private RaycastHit2D groundHit;
     private RaycastHit2D headHit;
 
     // Jump
     public float VerticalVelocity { get; private set; }
-    private bool isJumping;
-    private bool isFastFalling;
-    private bool isFalling;
+    public static bool isJumping;
+    public static bool isFastFalling;
+    public static bool isFalling;
     private float fastFallTime;
     private float fastFallReleaseSpeed;
     private int numberOfJumpsUsed;
@@ -38,7 +38,7 @@ public class PlayerMovement : MonoBehaviour
     // Jump Apex
     private float apexPoint;
     private float timePastApex;
-    private bool isPastApex;
+    public static bool isPastApex;
 
     // Jump Buffer
     private float jumpBufferTimer;
@@ -48,13 +48,13 @@ public class PlayerMovement : MonoBehaviour
     private float jumpCoyoteTimer;
 
     // Dashing
-    private bool isDashing;
+    public static bool isDashing;
     private bool isAirDashing;
     private float dashTimer;
     private float dashOnGroundTimer;
     private int numberOfDashesUsed;
     private Vector2 dashDirection;
-    private bool isDashFastFalling;
+    public static bool isDashFastFalling;
     private float dashFastFallTime;
     private float dashFastFallReleaseSpeed;
 
@@ -76,7 +76,7 @@ public class PlayerMovement : MonoBehaviour
         LandCheck();
 
         DashCheck();
-        AnimationControl();
+        // AnimationControl();
     }
 
     private void FixedUpdate()
@@ -653,66 +653,5 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    // Animations
-    private void AnimationControl()
-    {
-        if (isGrounded)
-        {
-            if (isDashing)
-            {
-                PlayerAnimations.CrossFade(animator, PlayerAnimations.Dash, 0.1f);
-            }
-            else if (InputManager.Movement.x != 0)
-            {
-                PlayerAnimations.CrossFade(animator, PlayerAnimations.Walk, 0.1f);
-            }
-            else if (PlayerAnimations.GetState() == PlayerAnimations.Fall)
-            {
-                PlayerAnimations.CrossFade(animator, PlayerAnimations.Land, 0.1f);
-            }
-            else
-            {
-                if (PlayerAnimations.GetState() == PlayerAnimations.Land)
-                {
-                    PlayerAnimations.CrossFade(animator, PlayerAnimations.Idle, 0.03f);
-                }
-                else
-                {
-                    PlayerAnimations.CrossFade(animator, PlayerAnimations.Idle, 0.1f);
-                }
-            }
-        }
-        else
-        {
-            if (isDashing)
-            {
-                PlayerAnimations.CrossFade(animator, PlayerAnimations.Dash, 0.1f);
-            }
-            else if (isFalling || isFastFalling || isDashFastFalling || isPastApex)
-            {
-                PlayerAnimations.CrossFade(animator, PlayerAnimations.Fall, 0.1f);
-            }
-            else if (isJumping)
-            {
-                PlayerAnimations.CrossFade(animator, PlayerAnimations.Jump, 0.1f);
-            }
-        }
-        // if (isJumping)
-        // {
-        //     animator.SetBool("Jumping", true);
-        // }
-        // else
-        // {
-        //     animator.SetBool("Jumping", false);
-        // }
-        // if (isFalling || isFastFalling || isPastApex)
-        // {
-        //     Debug.Log("Falling");
-        //     animator.SetBool("Falling", true);
-        // }
-        // else
-        // {
-        //     animator.SetBool("Falling", false);
-        // }
-    }
+
 }

@@ -14,6 +14,7 @@ public class PlayerAttack : MonoBehaviour
     public int damage;
     public float verticalKnockbackForce;
     public float horizontalKnockbackForce;
+    public static bool isMeleeing = false;
 
     public CinemachineVirtualCamera vCam;
     public float shakeIntensity;
@@ -34,8 +35,11 @@ public class PlayerAttack : MonoBehaviour
     {
         if (timeBtwMelees <= 0)
         {
-            if (Input.GetKey(KeyCode.E))
+            isMeleeing = false;
+            if (InputManager.MeleeWasPressed)
             {
+                isMeleeing = true;
+                Debug.Log("Melee");
                 Collider2D[] enemiesToMelee = Physics2D.OverlapCircleAll(meleePos.position, meleeRange, whatIsEnemy);
                 for (int i = 0; i < enemiesToMelee.Length; i++)
                 {
@@ -44,10 +48,6 @@ public class PlayerAttack : MonoBehaviour
                     enemiesToMelee[i].GetComponent<Rigidbody2D>().AddForce(horizontalKnockback.normalized * horizontalKnockbackForce + new Vector2(0, 1) * verticalKnockbackForce, ForceMode2D.Impulse);
                 }
                 timeBtwMelees = startTimeBtwMelees;
-                if (enemiesToMelee.Length > 0)
-                {
-                    ShakeCamera();
-                }
             }
 
         }
@@ -61,26 +61,12 @@ public class PlayerAttack : MonoBehaviour
             timer -= Time.deltaTime;
             if (timer <= 0)
             {
-                StopShake();
+                // StopShake();
             }
         }
     }
 
-    void ShakeCamera()
-    {
-        cmbcp = vCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
-        cmbcp.m_AmplitudeGain = shakeIntensity;
 
-        timer = shakeTime;
-    }
-
-    void StopShake()
-    {
-        cmbcp = vCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
-        cmbcp.m_AmplitudeGain = 0;
-
-        timer = 0;
-    }
 
     void OnDrawGizmosSelected()
     {

@@ -59,7 +59,6 @@ public class Tail : MonoBehaviour
 
     private void SetTextureWithDirection()
     {
-        Debug.Log(origTextureScale);
         if (PlayerTransform == null)
             return;
         if (PlayerTransform.rotation.y > 0)

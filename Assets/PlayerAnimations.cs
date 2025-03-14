@@ -8,6 +8,7 @@ public class PlayerAnimations : MonoBehaviour
     public static readonly int Fall = Animator.StringToHash("PlayerFalling");
     public static readonly int Land = Animator.StringToHash("PlayerLanding");
     public static readonly int Dash = Animator.StringToHash("PlayerDashing");
+    public static readonly int Melee = Animator.StringToHash("PlayerMelee");
 
     private static int currentState = Idle;
 

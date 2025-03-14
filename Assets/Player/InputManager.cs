@@ -9,12 +9,16 @@ public class InputManager : MonoBehaviour
     public static bool JumpWasReleased;
     public static bool JumpIsHeld;
 
+    public static bool FireWasPressed;
     public static bool DashWasPressed;
+    public static bool MeleeWasPressed;
 
 
     private InputAction jumpAction;
     private InputAction movementAction;
+    private InputAction fireAction;
     private InputAction dashAction;
+    private InputAction meleeAction;
 
 
 
@@ -24,7 +28,9 @@ public class InputManager : MonoBehaviour
         PlayerInput = GetComponent<PlayerInput>();
         jumpAction = PlayerInput.actions["Jump"];
         movementAction = PlayerInput.actions["Move"];
+        fireAction = PlayerInput.actions["Fire"];
         dashAction = PlayerInput.actions["Dash"];
+        meleeAction = PlayerInput.actions["Melee"];
     }
 
     private void Update()
@@ -33,7 +39,9 @@ public class InputManager : MonoBehaviour
         JumpWasPressed = jumpAction.WasPressedThisFrame();
         JumpWasReleased = jumpAction.WasReleasedThisFrame();
         JumpIsHeld = jumpAction.IsPressed();
+        FireWasPressed = fireAction.WasPressedThisFrame();
         DashWasPressed = dashAction.WasPressedThisFrame();
+        MeleeWasPressed = meleeAction.WasPressedThisFrame();
     }
 
 
