@@ -23,7 +23,7 @@ public class PlayerShooter : MonoBehaviour
         HandleRotation();
         if (timeBtwFire <= 0)
         {
-            if (InputManager.FireWasPressed)
+            if (InputManager.FireIsHeld)
             {
 
                 if (SegmentPos == null || SegmentPos.Length != lineRenderer.positionCount)
