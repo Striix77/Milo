@@ -4,7 +4,7 @@ using Cinemachine;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerAttack : MonoBehaviour
+public class PlayerAbilities : MonoBehaviour
 {
     private float timeBtwMelees = 0;
     public float startTimeBtwMelees;
@@ -27,18 +27,41 @@ public class PlayerAttack : MonoBehaviour
     public GameObject ability1;
     public ParticleSystem ability1Effect;
 
+    private float timeBtwUltimate = 0;
+    public float startTimeBtwUltimate;
+    public Transform ultimatePos;
+    public float ultimateRange;
+    public int ultimateDamage;
+    public float ultimateVerticalKnockbackForce;
+    public float ultimateHorizontalKnockbackForce;
+    public static bool isUlting = false;
+    public GameObject ultimate;
+    private GameObject ultimateClone;
+    public ParticleSystem ultimateEffect;
+
     public CinemachineVirtualCamera vCam;
     public float shakeIntensity;
     public float shakeTime;
 
-    private CinemachineBasicMultiChannelPerlin cmbcp;
+    private float normalCameraSize = 5f;
+    [Range(1f, 10f)] public float zoomedOutSize = 8f;
+    [Range(0.1f, 3f)] public float zoomDuration = 0.5f;
+    private bool isZoomedOut = false;
+    private float currentZoomVelocity = 0f;
 
 
+    public RectTransform upperBar;
+    public RectTransform lowerBar;
+    [Range(0f, 1000f)] public float barYPosition;
+    [Range(0.1f, 3f)] public float barLerpSpeed = 3f;
     void Update()
     {
-
         CheckForMelee();
         CheckForAbility1();
+        CheckForUltimate();
+        MoveBarsWhenUlting();
+
+        UpdateCameraZoom();
     }
 
     void CheckForMelee()
@@ -46,7 +69,7 @@ public class PlayerAttack : MonoBehaviour
         if (timeBtwMelees <= 0)
         {
             isMeleeing = false;
-            if (InputManager.MeleeWasPressed)
+            if (InputManager.MeleeWasPressed && !isUlting)
             {
                 isMeleeing = true;
                 Collider2D[] enemiesToMelee = Physics2D.OverlapCircleAll(meleePos.position, meleeRange, whatIsEnemy);
@@ -68,12 +91,72 @@ public class PlayerAttack : MonoBehaviour
 
     }
 
+    void CheckForUltimate()
+    {
+        if (ultimateClone == null)
+        {
+            isUlting = false;
+        }
+
+        if (timeBtwUltimate <= 0)
+        {
+            isUlting = false;
+            if (InputManager.UltimateWasPressed)
+            {
+                isUlting = true;
+                ultimateClone = Instantiate(ultimate, ultimatePos.position, Quaternion.identity);
+
+                timeBtwUltimate = startTimeBtwUltimate;
+            }
+
+        }
+        else
+        {
+            timeBtwUltimate -= Time.deltaTime;
+        }
+
+
+    }
+
+    private void UpdateCameraZoom()
+    {
+        if (isUlting && !isZoomedOut)
+        {
+            ZoomCamera(zoomedOutSize, ref isZoomedOut);
+        }
+        else if (!isUlting && isZoomedOut)
+        {
+            ZoomCamera(normalCameraSize, ref isZoomedOut);
+        }
+
+    }
+
+    private void ZoomCamera(float targetSize, ref bool isZoomedOut)
+    {
+        float startSize = vCam.m_Lens.OrthographicSize;
+
+        vCam.m_Lens.OrthographicSize = Mathf.SmoothDamp(
+            startSize,
+            targetSize,
+            ref currentZoomVelocity,
+            zoomDuration
+        );
+
+
+        if (Mathf.Abs(vCam.m_Lens.OrthographicSize - targetSize) < 0.01f)
+        {
+            vCam.m_Lens.OrthographicSize = targetSize;
+            isZoomedOut = !isZoomedOut;
+        }
+    }
+
+
     void CheckForAbility1()
     {
         if (timeBtwAbility1 <= 0)
         {
             isAbility1ing = false;
-            if (InputManager.Ability1WasPressed)
+            if (InputManager.Ability1WasPressed && !isUlting)
             {
                 isAbility1ing = true;
                 GameObject ability1Clone = Instantiate(ability1, ability1Pos.position, Quaternion.identity);
@@ -96,6 +179,22 @@ public class PlayerAttack : MonoBehaviour
         }
 
 
+    }
+
+
+    private void MoveBarsWhenUlting()
+    {
+        if (isUlting)
+        {
+            Debug.Log("Sziasztok");
+            upperBar.anchoredPosition = Vector2.Lerp(upperBar.anchoredPosition, new Vector2(upperBar.anchoredPosition.x, barYPosition), barLerpSpeed * Time.deltaTime);
+            lowerBar.anchoredPosition = Vector2.Lerp(lowerBar.anchoredPosition, new Vector2(lowerBar.anchoredPosition.x, -barYPosition), barLerpSpeed * Time.deltaTime);
+        }
+        else
+        {
+            upperBar.anchoredPosition = Vector2.Lerp(upperBar.anchoredPosition, new Vector2(upperBar.anchoredPosition.x, 645), barLerpSpeed * Time.deltaTime);
+            lowerBar.anchoredPosition = Vector2.Lerp(lowerBar.anchoredPosition, new Vector2(lowerBar.anchoredPosition.x, -645), barLerpSpeed * Time.deltaTime);
+        }
     }
 
 

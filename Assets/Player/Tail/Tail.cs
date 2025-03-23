@@ -142,8 +142,5 @@ public class Tail : MonoBehaviour
         lineRenderer.SetPositions(SegmentPos);
     }
 
-    private void MoveTailWithAnimations()
-    {
 
-    }
 }

@@ -14,6 +14,7 @@ public class InputManager : MonoBehaviour
     public static bool DashWasPressed;
     public static bool MeleeWasPressed;
     public static bool Ability1WasPressed;
+    public static bool UltimateWasPressed;
 
 
     private InputAction jumpAction;
@@ -22,6 +23,7 @@ public class InputManager : MonoBehaviour
     private InputAction dashAction;
     private InputAction meleeAction;
     private InputAction ability1Action;
+    private InputAction ultimateAction;
 
 
 
@@ -35,10 +37,12 @@ public class InputManager : MonoBehaviour
         dashAction = PlayerInput.actions["Dash"];
         meleeAction = PlayerInput.actions["Melee"];
         ability1Action = PlayerInput.actions["Ability1"];
+        ultimateAction = PlayerInput.actions["Ultimate"];
     }
 
     private void Update()
     {
+
         Movement = movementAction.ReadValue<Vector2>();
         JumpWasPressed = jumpAction.WasPressedThisFrame();
         JumpWasReleased = jumpAction.WasReleasedThisFrame();
@@ -48,6 +52,7 @@ public class InputManager : MonoBehaviour
         DashWasPressed = dashAction.WasPressedThisFrame();
         MeleeWasPressed = meleeAction.WasPressedThisFrame();
         Ability1WasPressed = ability1Action.WasPressedThisFrame();
+        UltimateWasPressed = ultimateAction.WasPressedThisFrame();
     }
 
 

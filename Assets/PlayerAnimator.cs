@@ -18,7 +18,8 @@ public class PlayerAnimator : MonoBehaviour
 
     private void AnimationControl()
     {
-        if (PlayerAttack.isMeleeing)
+
+        if (PlayerAbilities.isMeleeing)
         {
             Debug.Log("Meleeing");
             PlayerAnimations.CrossFade(animator, PlayerAnimations.Melee, 0.1f);
