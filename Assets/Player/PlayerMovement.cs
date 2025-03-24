@@ -62,6 +62,7 @@ public class PlayerMovement : MonoBehaviour
     // Animations
     private Animator animator;
 
+
     private void Awake()
     {
         isFacingRight = true;
@@ -76,7 +77,6 @@ public class PlayerMovement : MonoBehaviour
         LandCheck();
 
         DashCheck();
-        // AnimationControl();
     }
 
     private void FixedUpdate()

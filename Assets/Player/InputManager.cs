@@ -26,7 +26,7 @@ public class InputManager : MonoBehaviour
     private InputAction ultimateAction;
 
 
-
+    public PlayerAbilities playerAbilities;
 
     private void Awake()
     {
@@ -42,17 +42,32 @@ public class InputManager : MonoBehaviour
 
     private void Update()
     {
-
-        Movement = movementAction.ReadValue<Vector2>();
-        JumpWasPressed = jumpAction.WasPressedThisFrame();
-        JumpWasReleased = jumpAction.WasReleasedThisFrame();
-        JumpIsHeld = jumpAction.IsPressed();
-        FireWasPressed = fireAction.WasPressedThisFrame();
-        FireIsHeld = fireAction.IsPressed();
-        DashWasPressed = dashAction.WasPressedThisFrame();
-        MeleeWasPressed = meleeAction.WasPressedThisFrame();
-        Ability1WasPressed = ability1Action.WasPressedThisFrame();
-        UltimateWasPressed = ultimateAction.WasPressedThisFrame();
+        if (!playerAbilities.isUlting)
+        {
+            Movement = movementAction.ReadValue<Vector2>();
+            JumpWasPressed = jumpAction.WasPressedThisFrame();
+            JumpWasReleased = jumpAction.WasReleasedThisFrame();
+            JumpIsHeld = jumpAction.IsPressed();
+            FireWasPressed = fireAction.WasPressedThisFrame();
+            FireIsHeld = fireAction.IsPressed();
+            DashWasPressed = dashAction.WasPressedThisFrame();
+            MeleeWasPressed = meleeAction.WasPressedThisFrame();
+            Ability1WasPressed = ability1Action.WasPressedThisFrame();
+            UltimateWasPressed = ultimateAction.WasPressedThisFrame();
+        }
+        else
+        {
+            Movement = Vector2.zero;
+            JumpWasPressed = false;
+            JumpWasReleased = false;
+            JumpIsHeld = false;
+            FireWasPressed = false;
+            FireIsHeld = false;
+            DashWasPressed = false;
+            MeleeWasPressed = false;
+            Ability1WasPressed = false;
+            UltimateWasPressed = false;
+        }
     }
 
 

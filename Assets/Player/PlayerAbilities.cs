@@ -6,8 +6,9 @@ using UnityEngine;
 
 public class PlayerAbilities : MonoBehaviour
 {
-    private float timeBtwMelees = 0;
+    [Header("Melee Settings")]
     public float startTimeBtwMelees;
+    private float timeBtwMelees = 0;
     public Transform meleePos;
     public LayerMask whatIsEnemy;
     public float meleeRange;
@@ -16,8 +17,9 @@ public class PlayerAbilities : MonoBehaviour
     public float horizontalKnockbackForce;
     public static bool isMeleeing = false;
 
-    private float timeBtwAbility1 = 0;
+    [Header("Ability1 Settings")]
     public float startTimeBtwAbility1;
+    private float timeBtwAbility1 = 0;
     public Transform ability1Pos;
     public float ability1Range;
     public int ability1Damage;
@@ -27,14 +29,15 @@ public class PlayerAbilities : MonoBehaviour
     public GameObject ability1;
     public ParticleSystem ability1Effect;
 
-    private float timeBtwUltimate = 0;
+    [Header("Ultimate Settings")]
     public float startTimeBtwUltimate;
+    private float timeBtwUltimate = 0;
     public Transform ultimatePos;
     public float ultimateRange;
     public int ultimateDamage;
     public float ultimateVerticalKnockbackForce;
     public float ultimateHorizontalKnockbackForce;
-    public static bool isUlting = false;
+    public bool isUlting = false;
     public GameObject ultimate;
     private GameObject ultimateClone;
     public ParticleSystem ultimateEffect;
@@ -54,6 +57,34 @@ public class PlayerAbilities : MonoBehaviour
     public RectTransform lowerBar;
     [Range(0f, 1000f)] public float barYPosition;
     [Range(0.1f, 3f)] public float barLerpSpeed = 3f;
+
+
+    public CinemachineBrain cinemachineBrain;
+    private new Camera camera;
+    private Bounds cameraBounds;
+    private HurricaneAnimator hurricaneAnimator;
+
+    [Range(0.1f, 5f)] public float StartLerpSpeed;
+    [Range(0.1f, 5f)] public float AttackSmoothTime;
+    private int phase = 0;
+    private float velocity = 1f;
+    private float posX1;
+    private float posX2;
+    private float posX3;
+    private float posX4;
+
+    void Start()
+    {
+        if (cinemachineBrain != null)
+        {
+            camera = cinemachineBrain.OutputCamera;
+        }
+        else
+        {
+            Debug.LogError("No CinemachineBrain found in scene!");
+        }
+    }
+
     void Update()
     {
         CheckForMelee();
@@ -62,6 +93,20 @@ public class PlayerAbilities : MonoBehaviour
         MoveBarsWhenUlting();
 
         UpdateCameraZoom();
+        Debug.Log(camera);
+        float cameraHeight = 2f * camera.orthographicSize;
+        float cameraWidth = cameraHeight * camera.aspect;
+        cameraBounds = new Bounds(camera.transform.position, new Vector3(cameraWidth, cameraHeight, 0));
+        Debug.Log(cameraBounds.size.x);
+        Vector3 cameraCenter = cameraBounds.center;
+
+        posX1 = cameraCenter.x + cameraBounds.extents.x * 0.5f;
+        posX2 = cameraCenter.x - cameraBounds.extents.x * 0.5f;
+        posX3 = cameraCenter.x + cameraBounds.extents.x * 0.75f;
+        posX4 = cameraCenter.x - cameraBounds.extents.x - 5f;
+        LerpToStartLocation();
+        LerpAroundTheCamera();
+
     }
 
     void CheckForMelee()
@@ -104,7 +149,10 @@ public class PlayerAbilities : MonoBehaviour
             if (InputManager.UltimateWasPressed)
             {
                 isUlting = true;
+                phase = 0;
+                velocity = 1f;
                 ultimateClone = Instantiate(ultimate, ultimatePos.position, Quaternion.identity);
+                hurricaneAnimator = ultimateClone.GetComponent<HurricaneAnimator>();
 
                 timeBtwUltimate = startTimeBtwUltimate;
             }
@@ -116,6 +164,95 @@ public class PlayerAbilities : MonoBehaviour
         }
 
 
+    }
+
+    private void LerpToStartLocation()
+    {
+        if (ultimateClone == null || hurricaneAnimator == null)
+        {
+            return;
+        }
+
+        if (hurricaneAnimator.canDamage)
+        {
+            return;
+        }
+        Debug.Log("Lerping to start location");
+        Vector3 newPosition = new Vector3(
+            Mathf.Lerp(ultimateClone.transform.position.x, cameraBounds.center.x, StartLerpSpeed * Time.deltaTime),
+            Mathf.Lerp(ultimateClone.transform.position.y, cameraBounds.center.y + 2, StartLerpSpeed * Time.deltaTime),
+            ultimateClone.transform.position.z
+        );
+
+        ultimateClone.transform.position = newPosition;
+        if (ultimateClone.transform.position.x >= cameraBounds.center.x - 0.1f)
+        {
+            phase = 1;
+        }
+    }
+
+    private void LerpAroundTheCamera()
+    {
+        if (hurricaneAnimator == null || !hurricaneAnimator.canDamage || ultimateClone == null)
+        {
+            return;
+        }
+
+        Vector3 newPosition = ultimateClone.transform.position;
+        switch (phase)
+        {
+            case 1:
+                newPosition = new Vector3(
+                    Mathf.SmoothDamp(ultimateClone.transform.position.x, posX1, ref velocity, AttackSmoothTime),
+                    ultimateClone.transform.position.y,
+                    ultimateClone.transform.position.z
+                );
+
+                if (ultimateClone.transform.position.x >= posX1 - 0.1f)
+                {
+                    phase = 2;
+                }
+                break;
+            case 2:
+                newPosition = new Vector3(
+                    Mathf.SmoothDamp(ultimateClone.transform.position.x, posX2, ref velocity, AttackSmoothTime),
+                    ultimateClone.transform.position.y,
+                    ultimateClone.transform.position.z
+                );
+
+                if (ultimateClone.transform.position.x <= posX2 + 0.1f)
+                {
+                    phase = 3;
+                }
+                break;
+            case 3:
+                newPosition = new Vector3(
+                    Mathf.SmoothDamp(ultimateClone.transform.position.x, posX3, ref velocity, AttackSmoothTime),
+                    ultimateClone.transform.position.y,
+                    ultimateClone.transform.position.z
+                );
+
+                if (ultimateClone.transform.position.x >= posX3 - 0.1f)
+                {
+                    phase = 4;
+                    hurricaneAnimator.StopHurricane();
+                }
+                break;
+            case 4:
+                newPosition = new Vector3(
+                    Mathf.SmoothDamp(ultimateClone.transform.position.x, posX4, ref velocity, AttackSmoothTime),
+                    ultimateClone.transform.position.y,
+                    ultimateClone.transform.position.z
+                );
+
+                if (ultimateClone.transform.position.x <= posX4 + 0.1f)
+                {
+                    phase = 0;
+                }
+                break;
+        }
+
+        ultimateClone.transform.position = newPosition;
     }
 
     private void UpdateCameraZoom()

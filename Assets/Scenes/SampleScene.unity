@@ -3426,6 +3426,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aced7f68fb0c9534f8b04461e160ab32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerAbilities: {fileID: 1981441845}
 --- !u!1 &1067236869
 GameObject:
   m_ObjectHideFlags: 0
@@ -4633,6 +4634,7 @@ MonoBehaviour:
   ultimateDamage: 0
   ultimateVerticalKnockbackForce: 0
   ultimateHorizontalKnockbackForce: 0
+  isUlting: 0
   ultimate: {fileID: 5710474172926386395, guid: 77377ddcce1ebfc428391f862813bf28, type: 3}
   ultimateEffect: {fileID: 0}
   vCam: {fileID: 519420035}
@@ -4644,6 +4646,9 @@ MonoBehaviour:
   lowerBar: {fileID: 286630826}
   barYPosition: 482
   barLerpSpeed: 3
+  cinemachineBrain: {fileID: 519420033}
+  StartLerpSpeed: 2.5
+  AttackSmoothTime: 0.6
 --- !u!114 &1981441846
 MonoBehaviour:
   m_ObjectHideFlags: 0
