@@ -128,7 +128,7 @@ MonoBehaviour:
   canDamage: 0
   delayBeforeForm: 3
   crossfadeDuration: 0.05
-  fadeOutDuration: 0.75
+  fadeOutDuration: 1.5
   destroyAfterFade: 1
 --- !u!114 &114023164406738940
 MonoBehaviour:
@@ -142,8 +142,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87eb52968eb05c646829026976e9f95a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartLerpSpeed: 1.5
-  AttackSmoothTime: 0.5
 --- !u!82 &6503121622085141738
 AudioSource:
   m_ObjectHideFlags: 0

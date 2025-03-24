@@ -42,6 +42,7 @@ public class InputManager : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log("PlayerAbilities: " + playerAbilities.isUlting);
         if (!playerAbilities.isUlting)
         {
             Movement = movementAction.ReadValue<Vector2>();

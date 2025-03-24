@@ -43,8 +43,7 @@ public class PlayerAbilities : MonoBehaviour
     public ParticleSystem ultimateEffect;
 
     public CinemachineVirtualCamera vCam;
-    public float shakeIntensity;
-    public float shakeTime;
+    private CinemachineBasicMultiChannelPerlin vCamNoise;
 
     private float normalCameraSize = 5f;
     [Range(1f, 10f)] public float zoomedOutSize = 8f;
@@ -66,8 +65,14 @@ public class PlayerAbilities : MonoBehaviour
 
     [Range(0.1f, 5f)] public float StartLerpSpeed;
     [Range(0.1f, 5f)] public float AttackSmoothTime;
+    [Range(0f, 5f)] public float ShakeIntensityPhase0 = 1f;
+    [Range(0f, 5f)] public float ShakeIntensityPhase1 = 1f;
+    [Range(0f, 5f)] public float ShakeIntensityPhase2 = 1f;
+    [Range(0f, 5f)] public float ShakeIntensityPhase3 = 1f;
+    [Range(0f, 5f)] public float ShakeStopSpeed = 1f;
     private int phase = 0;
     private float velocity = 1f;
+    private float shakeVelocity = 1f;
     private float posX1;
     private float posX2;
     private float posX3;
@@ -83,6 +88,7 @@ public class PlayerAbilities : MonoBehaviour
         {
             Debug.LogError("No CinemachineBrain found in scene!");
         }
+        vCamNoise = vCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
     }
 
     void Update()
@@ -93,11 +99,9 @@ public class PlayerAbilities : MonoBehaviour
         MoveBarsWhenUlting();
 
         UpdateCameraZoom();
-        Debug.Log(camera);
         float cameraHeight = 2f * camera.orthographicSize;
         float cameraWidth = cameraHeight * camera.aspect;
         cameraBounds = new Bounds(camera.transform.position, new Vector3(cameraWidth, cameraHeight, 0));
-        Debug.Log(cameraBounds.size.x);
         Vector3 cameraCenter = cameraBounds.center;
 
         posX1 = cameraCenter.x + cameraBounds.extents.x * 0.5f;
@@ -166,6 +170,49 @@ public class PlayerAbilities : MonoBehaviour
 
     }
 
+    private void ShakeCamera(float intensity)
+    {
+        if (vCam == null)
+        {
+            return;
+        }
+
+        vCamNoise.m_AmplitudeGain = intensity;
+
+    }
+
+    private void StopShakeSmoothly()
+    {
+        if (vCam == null)
+        {
+            return;
+        }
+
+        vCamNoise.m_AmplitudeGain = Mathf.SmoothDamp(
+            vCamNoise.m_AmplitudeGain,
+            0f,
+            ref shakeVelocity,
+            ShakeStopSpeed
+        );
+
+        if (vCamNoise.m_AmplitudeGain < 0.01f)
+        {
+            vCamNoise.m_AmplitudeGain = 0f;
+            shakeVelocity = 1f;
+        }
+    }
+
+    private void StopShake()
+    {
+        if (vCam == null)
+        {
+            return;
+        }
+
+        vCamNoise.m_AmplitudeGain = 0f;
+        shakeVelocity = 1f;
+    }
+
     private void LerpToStartLocation()
     {
         if (ultimateClone == null || hurricaneAnimator == null)
@@ -177,6 +224,7 @@ public class PlayerAbilities : MonoBehaviour
         {
             return;
         }
+        ShakeCamera(ShakeIntensityPhase0);
         Debug.Log("Lerping to start location");
         Vector3 newPosition = new Vector3(
             Mathf.Lerp(ultimateClone.transform.position.x, cameraBounds.center.x, StartLerpSpeed * Time.deltaTime),
@@ -195,6 +243,11 @@ public class PlayerAbilities : MonoBehaviour
     {
         if (hurricaneAnimator == null || !hurricaneAnimator.canDamage || ultimateClone == null)
         {
+            if (ultimateClone == null)
+            {
+                phase = 0;
+                StopShake();
+            }
             return;
         }
 
@@ -202,6 +255,7 @@ public class PlayerAbilities : MonoBehaviour
         switch (phase)
         {
             case 1:
+                ShakeCamera(ShakeIntensityPhase1);
                 newPosition = new Vector3(
                     Mathf.SmoothDamp(ultimateClone.transform.position.x, posX1, ref velocity, AttackSmoothTime),
                     ultimateClone.transform.position.y,
@@ -214,6 +268,7 @@ public class PlayerAbilities : MonoBehaviour
                 }
                 break;
             case 2:
+                ShakeCamera(ShakeIntensityPhase2);
                 newPosition = new Vector3(
                     Mathf.SmoothDamp(ultimateClone.transform.position.x, posX2, ref velocity, AttackSmoothTime),
                     ultimateClone.transform.position.y,
@@ -226,6 +281,7 @@ public class PlayerAbilities : MonoBehaviour
                 }
                 break;
             case 3:
+                ShakeCamera(ShakeIntensityPhase3);
                 newPosition = new Vector3(
                     Mathf.SmoothDamp(ultimateClone.transform.position.x, posX3, ref velocity, AttackSmoothTime),
                     ultimateClone.transform.position.y,
@@ -239,15 +295,17 @@ public class PlayerAbilities : MonoBehaviour
                 }
                 break;
             case 4:
+                StopShakeSmoothly();
                 newPosition = new Vector3(
                     Mathf.SmoothDamp(ultimateClone.transform.position.x, posX4, ref velocity, AttackSmoothTime),
                     ultimateClone.transform.position.y,
                     ultimateClone.transform.position.z
                 );
 
-                if (ultimateClone.transform.position.x <= posX4 + 0.1f)
+                if (ultimateClone.transform.position.x <= posX4 + 0.1f || ultimateClone == null)
                 {
                     phase = 0;
+                    StopShake();
                 }
                 break;
         }
@@ -323,7 +381,6 @@ public class PlayerAbilities : MonoBehaviour
     {
         if (isUlting)
         {
-            Debug.Log("Sziasztok");
             upperBar.anchoredPosition = Vector2.Lerp(upperBar.anchoredPosition, new Vector2(upperBar.anchoredPosition.x, barYPosition), barLerpSpeed * Time.deltaTime);
             lowerBar.anchoredPosition = Vector2.Lerp(lowerBar.anchoredPosition, new Vector2(lowerBar.anchoredPosition.x, -barYPosition), barLerpSpeed * Time.deltaTime);
         }
