@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class HurricaneAnimator : MonoBehaviour
@@ -21,7 +22,7 @@ public class HurricaneAnimator : MonoBehaviour
 
     private SpriteRenderer spriteRenderer;
     private Renderer[] renderers;
-    private AudioSource hurricaneHowl;
+    private Dictionary<string, AudioSource> audioSources = new Dictionary<string, AudioSource>();
 
     void Start()
     {
@@ -29,8 +30,14 @@ public class HurricaneAnimator : MonoBehaviour
         animator = GetComponent<Animator>();
         renderers = GetComponentsInChildren<Renderer>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        hurricaneHowl = GetComponent<AudioSource>();
-        hurricaneHowl.Play();
+
+        foreach (AudioSource source in GetComponents<AudioSource>())
+        {
+            audioSources[source.clip != null ? source.clip.name : "unnamed"] = source;
+        }
+
+        PlaySound("MiloHurricaneV2");
+        PlaySound("Hurricane");
 
         AnimationClip[] clips = animator.runtimeAnimatorController.animationClips;
         foreach (AnimationClip clip in clips)
@@ -45,10 +52,35 @@ public class HurricaneAnimator : MonoBehaviour
         StartCoroutine(nameof(DelayedFormAnimation));
     }
 
+    public void PlaySound(string soundName)
+    {
+        if (audioSources.ContainsKey(soundName))
+        {
+            audioSources[soundName].Play();
+        }
+        else
+        {
+            Debug.LogWarning($"Sound '{soundName}' not found on Hurricane");
+        }
+    }
+
+    public void StopSound(string soundName)
+    {
+        if (audioSources.ContainsKey(soundName))
+        {
+            audioSources[soundName].Stop();
+        }
+        else
+        {
+            Debug.LogWarning($"Sound '{soundName}' not found on Hurricane");
+        }
+    }
+
     private IEnumerator DelayedFormAnimation()
     {
         canDamage = false;
         yield return new WaitForSeconds(delayBeforeForm);
+        canDamage = true;
         animator.CrossFade(form, crossfadeDuration);
         if (formClip != null)
         {
@@ -59,7 +91,6 @@ public class HurricaneAnimator : MonoBehaviour
             yield return new WaitForSeconds(1.0f);
         }
         animator.CrossFade(loop, crossfadeDuration);
-        canDamage = true;
     }
 
     public void StopHurricane()

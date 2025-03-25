@@ -266,6 +266,7 @@ public class PlayerAbilities : MonoBehaviour
                 {
                     phase = 2;
                 }
+                hurricaneAnimator.PlaySound("Thunder1");
                 break;
             case 2:
                 ShakeCamera(ShakeIntensityPhase2);
@@ -279,6 +280,8 @@ public class PlayerAbilities : MonoBehaviour
                 {
                     phase = 3;
                 }
+                hurricaneAnimator.PlaySound("Thunder2");
+
                 break;
             case 3:
                 ShakeCamera(ShakeIntensityPhase3);
@@ -293,6 +296,8 @@ public class PlayerAbilities : MonoBehaviour
                     phase = 4;
                     hurricaneAnimator.StopHurricane();
                 }
+                hurricaneAnimator.PlaySound("Thunder2");
+
                 break;
             case 4:
                 StopShakeSmoothly();
@@ -307,6 +312,8 @@ public class PlayerAbilities : MonoBehaviour
                     phase = 0;
                     StopShake();
                 }
+                hurricaneAnimator.PlaySound("Thunder1");
+
                 break;
         }
 

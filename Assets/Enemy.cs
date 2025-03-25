@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 
 public class Enemy : MonoBehaviour
 {
@@ -25,5 +21,12 @@ public class Enemy : MonoBehaviour
     {
         health -= damage;
         Debug.Log(health);
+        gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+        Invoke(nameof(ResetColor), 0.1f);
+    }
+
+    void ResetColor()
+    {
+        gameObject.GetComponent<SpriteRenderer>().color = Color.white;
     }
 }
