@@ -24,6 +24,8 @@ public class HurricaneAnimator : MonoBehaviour
     private Renderer[] renderers;
     private Dictionary<string, AudioSource> audioSources = new Dictionary<string, AudioSource>();
 
+    public ParticleSystem HurricaneParticles;
+
     void Start()
     {
         canDamage = false;
@@ -91,6 +93,10 @@ public class HurricaneAnimator : MonoBehaviour
             yield return new WaitForSeconds(1.0f);
         }
         animator.CrossFade(loop, crossfadeDuration);
+        ParticleSystem particles = Instantiate(HurricaneParticles, transform.position, Quaternion.identity);
+        particles.transform.SetParent(transform);
+        particles.transform.localPosition = Vector3.zero;
+        particles.Play();
     }
 
     public void StopHurricane()

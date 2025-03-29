@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4744721392486150327}
   - component: {fileID: 5002847162899884976}
   - component: {fileID: 1043778602610603691}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: DashGhost
   m_TagString: Untagged
   m_Icon: {fileID: 0}

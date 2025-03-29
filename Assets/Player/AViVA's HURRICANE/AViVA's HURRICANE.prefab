@@ -96,7 +96,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -167,6 +167,7 @@ MonoBehaviour:
   crossfadeDuration: 0.05
   fadeOutDuration: 1.5
   destroyAfterFade: 1
+  HurricaneParticles: {fileID: 8391093665964379721, guid: 81d9f005991b9e946806093eec764d72, type: 3}
 --- !u!114 &114023164406738940
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -180,7 +181,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AttractionPoint: {fileID: 2850336084829134674}
-  AttractionForce: 10
+  AttractionForce: 20
   Damage: 10
   TimeBetweenDamage: 1
   TimeUntillFullForce: 1
@@ -367,7 +368,7 @@ AudioSource:
   m_audioClip: {fileID: 8300000, guid: 0b23e7ca087a59a4ba49b63d78db3f06, type: 3}
   m_Resource: {fileID: 8300000, guid: 0b23e7ca087a59a4ba49b63d78db3f06, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.491
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -464,7 +465,7 @@ AudioSource:
   m_audioClip: {fileID: 8300000, guid: 2dded44dcf40e9946b27df7ecd927c13, type: 3}
   m_Resource: {fileID: 8300000, guid: 2dded44dcf40e9946b27df7ecd927c13, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.506
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -561,7 +562,7 @@ AudioSource:
   m_audioClip: {fileID: 8300000, guid: 8873f3508d58cb24b947043a9d9a9fdb, type: 3}
   m_Resource: {fileID: 8300000, guid: 8873f3508d58cb24b947043a9d9a9fdb, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.501
   m_Pitch: 1
   Loop: 0
   Mute: 0
