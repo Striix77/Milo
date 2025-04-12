@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Enemy
   - Ground
+  - Enemy Projectile
+  - Projectile
   layers:
   - Default
   - TransparentFX
@@ -18,7 +20,7 @@ TagManager:
   - Ground
   - Enemy
   - Attack
-  - 
+  - Enemy Projectiles
   - 
   - 
   - 
@@ -45,6 +47,9 @@ TagManager:
     locked: 0
   - name: Ghost
     uniqueID: 151045047
+    locked: 0
+  - name: Projectiles
+    uniqueID: 1580165579
     locked: 0
   m_RenderingLayers:
   - Default
