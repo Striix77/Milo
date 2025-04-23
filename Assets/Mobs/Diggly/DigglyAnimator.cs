@@ -15,13 +15,18 @@ public class DigglyAnimator : MonoBehaviour
     private Animator animator;
     private DigglyAttack digglyAttack;
     private SpriteRenderer spriteRenderer;
+    private Rigidbody2D rb2d;
     private AnimationClip disappearClip;
+
+    public bool canTeleport = false;
+    private bool isDisappearing = false;
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         digglyAttack = GetComponent<DigglyAttack>();
+        // rb2d = GetComponent<Rigidbody2D>();
     }
 
     private void Start()
@@ -41,9 +46,11 @@ public class DigglyAnimator : MonoBehaviour
     private void Update()
     {
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-        if (stateInfo.shortNameHash == attackAnimation && !digglyAttack.isAttacking)
+        if (stateInfo.shortNameHash == attackAnimation && !digglyAttack.isAttacking && !isDisappearing && !canTeleport)
         {
-            digglyAttack.isAttacking = true;
+            digglyAttack.RestartAttack();
+            isDisappearing = true;
+            Debug.Log("Diggly is attacking.");
             StartCoroutine(nameof(CrossfadeToDisappearAnimation));
         }
     }
@@ -51,10 +58,15 @@ public class DigglyAnimator : MonoBehaviour
     private IEnumerator CrossfadeToDisappearAnimation()
     {
         yield return new WaitForSeconds(disappearDelay);
-        Debug.Log("Crossfade to disappear animation");
+        Debug.Log("Crossfading to disappear animation.");
+        digglyAttack.isAttacking = false;
+        Debug.Log("Diggly is DONE attacking.");
         animator.CrossFade(disappearAnimation, crossfadeDuration);
         yield return new WaitForSeconds(disappearClip.length - crossfadeDuration);
         spriteRenderer.enabled = false;
+        isDisappearing = false;
+        canTeleport = true;
+        // rb2d.simulated = false;
     }
 
     public void PlayAppearAnimation()

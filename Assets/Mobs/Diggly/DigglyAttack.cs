@@ -25,17 +25,23 @@ public class DigglyAttack : MonoBehaviour
 
     void Update()
     {
-        Debug.Log("ISDAALKEJWNOIUKGAS:JDUOJDEGABHUA: " + isAttacking);
         if (isAttacking)
         {
             Attack();
-            attackTimer += Time.deltaTime;
-            if (attackTimer >= digglyAnimator.disappearDelay)
-            {
-                isAttacking = false;
-            }
+            // attackTimer += Time.deltaTime;
+            // if (attackTimer >= digglyAnimator.disappearDelay)
+            // {
+            //     isAttacking = false;
+            // }
         }
 
+    }
+
+    public void RestartAttack()
+    {
+        isAttacking = true;
+        attackTimer = 0f;
+        timer = 0f;
     }
 
     private void Attack()
@@ -44,7 +50,7 @@ public class DigglyAttack : MonoBehaviour
         if (timer >= rockSpawnRate)
         {
             GameObject rockPrefab = GetRandomRockPrefab();
-            GameObject rock = Instantiate(rockPrefab, AttackPosition.position + new Vector3(GetRandomRange(-1, 1), 0, 0), Quaternion.identity);
+            GameObject rock = Instantiate(rockPrefab, AttackPosition.position + new Vector3(GetRandomRange(-0.5f, 0.5f), 0, 0), Quaternion.identity);
             rock.GetComponent<Rigidbody2D>().AddForce(GetRandomDirection() * rockForce, ForceMode2D.Impulse);
             Destroy(rock, DestroyDelay);
             timer = 0f;
@@ -75,7 +81,8 @@ public class DigglyAttack : MonoBehaviour
 
     private Vector2 GetRandomDirection()
     {
-        float angle = Random.Range(0, 140);
+        float angle = Random.Range(30, 150) * Mathf.Deg2Rad;
+        Debug.DrawLine(AttackPosition.position, AttackPosition.position + new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0), Color.red, 1f);
         return new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)).normalized;
     }
 }
