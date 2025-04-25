@@ -1,0 +1,56 @@
+using UnityEngine;
+
+public class StorkAttack : MonoBehaviour
+{
+    public GameObject StorkBombPrefab;
+    public Transform StorkBombSpawnPoint;
+    [Header("Attack Settings")]
+    public float attackThreshold = 1.5f;  // How close the stork needs to be above the player
+    public float attackCooldown = 2.0f;   // Time between attacks
+
+    [Header("References")]
+    private Transform playerTransform;
+    private float lastAttackTime;
+
+    private int storkNoBombAnimation = Animator.StringToHash("Stork");
+    private Animator animator;
+
+    void Start()
+    {
+        animator = GetComponent<Animator>();
+        // Find the player by tag
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            playerTransform = player.transform;
+        }
+        else
+        {
+            Debug.LogWarning("Player not found. Make sure your player has the 'Player' tag.");
+        }
+
+        lastAttackTime = -attackCooldown; // Allow immediate attack on game start
+    }
+
+    void Update()
+    {
+        if (playerTransform == null) return;
+
+        // Check if stork is above player (comparing X positions)
+        bool isAbovePlayer = Mathf.Abs(transform.position.x - playerTransform.position.x) < attackThreshold;
+
+        // If above player and cooldown expired, attack
+        if (isAbovePlayer && Time.time > lastAttackTime + attackCooldown)
+        {
+            PerformAttack();
+            lastAttackTime = Time.time;
+        }
+    }
+
+    void PerformAttack()
+    {
+        animator.CrossFade(storkNoBombAnimation, 0.1f, 0);
+        GameObject storkBomb = Instantiate(StorkBombPrefab, StorkBombSpawnPoint.position, Quaternion.identity);
+        Destroy(storkBomb, 5f);
+    }
+}
