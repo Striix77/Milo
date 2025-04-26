@@ -19,7 +19,6 @@ public class DigglyMovement : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(mainCamera.transform.position);
         if (digglyAnimator.canTeleport == true)
         {
             Debug.Log("Teleporting to random tilemap position.");
