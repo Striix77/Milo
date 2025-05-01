@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3917463205101626374}
   - component: {fileID: 2398591549888837439}
   - component: {fileID: -2011667205726482527}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: PeaShooterAttack
   m_TagString: Untagged
   m_Icon: {fileID: 0}

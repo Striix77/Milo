@@ -22,12 +22,45 @@ public class Enemy : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, bool changeColor = true)
     {
         health -= damage;
         Debug.Log(health);
-        gameObject.GetComponent<SpriteRenderer>().color = Color.red;
-        Invoke(nameof(ResetColor), 0.1f);
+        if (changeColor)
+        {
+            gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+            Invoke(nameof(ResetColor), 0.1f);
+        }
+    }
+
+    public void Freeze(float freezeTime)
+    {
+        gameObject.GetComponent<SpriteRenderer>().color = new Color(0.3981131f, 1f, 0.955977f);
+        MonoBehaviour[] scripts = gameObject.GetComponents<MonoBehaviour>();
+        foreach (MonoBehaviour script in scripts)
+        {
+            if (script is Enemy)
+                continue;
+            script.enabled = false;
+        }
+        gameObject.GetComponent<Collider2D>().enabled = false;
+        gameObject.GetComponent<Animator>().enabled = false;
+        gameObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+        gameObject.GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
+        Invoke(nameof(Unfreeze), freezeTime);
+    }
+
+    public void Unfreeze()
+    {
+        gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+        MonoBehaviour[] scripts = gameObject.GetComponents<MonoBehaviour>();
+        foreach (MonoBehaviour script in scripts)
+        {
+            script.enabled = true;
+        }
+        gameObject.GetComponent<Collider2D>().enabled = true;
+        gameObject.GetComponent<Animator>().enabled = true;
+        gameObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
     }
 
     void ResetColor()

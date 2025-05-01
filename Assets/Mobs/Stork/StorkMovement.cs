@@ -14,7 +14,7 @@ public class StorkMovement : MonoBehaviour
     private float spriteWidth;
     private float waitTimer = 0f;
 
-    private StorkState currentState = StorkState.WaitingLeft;
+    public StorkState currentState = StorkState.WaitingLeft;
     private int storkBombAnimation = Animator.StringToHash("StorkWithABomb");
     private Animator animator;
 
@@ -91,6 +91,7 @@ public class StorkMovement : MonoBehaviour
 
             case StorkState.WaitingRight:
                 waitTimer += Time.deltaTime;
+                currentPosition.x = rightEdge;
                 if (waitTimer >= waitTime)
                 {
                     currentState = StorkState.MovingLeft;
@@ -102,6 +103,7 @@ public class StorkMovement : MonoBehaviour
 
             case StorkState.WaitingLeft:
                 waitTimer += Time.deltaTime;
+                currentPosition.x = leftEdge;
                 if (waitTimer >= waitTime)
                 {
                     currentState = StorkState.MovingRight;

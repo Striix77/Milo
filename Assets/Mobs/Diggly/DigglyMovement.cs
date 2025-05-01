@@ -15,19 +15,24 @@ public class DigglyMovement : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         mainCamera = Camera.main;
         tilemap = FindAnyObjectByType<Tilemap>();
+        digglyAnimator.canTeleport = true;
+        while (digglyAnimator.canTeleport)
+        {
+            TeleportToRandomTilemap();
+        }
     }
 
     void Update()
     {
         if (digglyAnimator.canTeleport == true)
         {
-            Debug.Log("Teleporting to random tilemap position.");
             TeleportToRandomTilemap();
         }
     }
 
     private void TeleportToRandomTilemap()
     {
+
         BoundsInt bounds = tilemap.cellBounds;
         int x = Random.Range(bounds.x, bounds.xMax);
         int y = Random.Range(bounds.y, bounds.yMax);
@@ -40,6 +45,7 @@ public class DigglyMovement : MonoBehaviour
             transform.position = worldPosition;
             digglyAnimator.canTeleport = false;
             digglyAnimator.PlayAppearAnimation();
+            Debug.Log("Teleporting to random tilemap position.");
         }
     }
 

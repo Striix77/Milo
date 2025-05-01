@@ -182,7 +182,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AttractionPoint: {fileID: 2850336084829134674}
   AttractionForce: 20
-  Damage: 10
+  Damage: 50
   TimeBetweenDamage: 1
   TimeUntillFullForce: 1
 --- !u!82 &6503121622085141738

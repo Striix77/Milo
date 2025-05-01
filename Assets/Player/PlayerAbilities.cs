@@ -23,6 +23,7 @@ public class PlayerAbilities : MonoBehaviour
     public Transform ability1Pos;
     public float ability1Range;
     public int ability1Damage;
+    public float freezeTime;
     public float ability1VerticalKnockbackForce;
     public float ability1HorizontalKnockbackForce;
     public static bool isAbility1ing = false;
@@ -367,9 +368,16 @@ public class PlayerAbilities : MonoBehaviour
                 Collider2D[] enemiesToAbility1 = Physics2D.OverlapCircleAll(ability1Pos.position, ability1Range, whatIsEnemy);
                 for (int i = 0; i < enemiesToAbility1.Length; i++)
                 {
-                    enemiesToAbility1[i].GetComponent<Enemy>().TakeDamage(damage);
-                    Vector2 horizontalKnockback = enemiesToAbility1[i].transform.position - transform.position;
-                    enemiesToAbility1[i].GetComponent<Rigidbody2D>().AddForce(horizontalKnockback.normalized * ability1HorizontalKnockbackForce + new Vector2(0, 1) * ability1VerticalKnockbackForce, ForceMode2D.Impulse);
+                    if (!enemiesToAbility1[i].name.StartsWith("Stork"))
+                    {
+                        enemiesToAbility1[i].GetComponent<Enemy>().TakeDamage(ability1Damage, false);
+                        enemiesToAbility1[i].GetComponent<Enemy>().Freeze(freezeTime);
+                    }
+                    else
+                    {
+                        enemiesToAbility1[i].GetComponent<Enemy>().TakeDamage(ability1Damage);
+                    }
+
                 }
                 timeBtwAbility1 = startTimeBtwAbility1;
             }

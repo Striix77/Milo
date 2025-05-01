@@ -54,6 +54,18 @@ public class Hurricane : MonoBehaviour
                 {
                     Vector2 direction = AttractionPoint.transform.position - col.transform.position;
                     Rigidbody2D enemyRb = col.GetComponent<Rigidbody2D>();
+                    if (!col.gameObject.name.StartsWith("Diggly"))
+                    {
+                        MonoBehaviour[] scripts = col.gameObject.GetComponents<MonoBehaviour>();
+                        foreach (MonoBehaviour script in scripts)
+                        {
+                            if (script is Enemy)
+                                continue;
+                            script.enabled = false;
+                        }
+                        enemyRb.constraints = RigidbodyConstraints2D.None;
+                        enemyRb.bodyType = RigidbodyType2D.Dynamic;
+                    }
                     attractionForce = Mathf.Lerp(0, AttractionForce, forceTimer / TimeUntillFullForce);
                     if (enemyRb != null)
                     {

@@ -14,10 +14,12 @@ public class StorkAttack : MonoBehaviour
 
     private int storkNoBombAnimation = Animator.StringToHash("Stork");
     private Animator animator;
+    private StorkMovement storkMovement;
 
     void Start()
     {
         animator = GetComponent<Animator>();
+        storkMovement = GetComponent<StorkMovement>();
         // Find the player by tag
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
@@ -40,7 +42,7 @@ public class StorkAttack : MonoBehaviour
         bool isAbovePlayer = Mathf.Abs(transform.position.x - playerTransform.position.x) < attackThreshold;
 
         // If above player and cooldown expired, attack
-        if (isAbovePlayer && Time.time > lastAttackTime + attackCooldown)
+        if ((storkMovement.currentState.Equals(StorkState.MovingLeft) || storkMovement.currentState.Equals(StorkState.MovingRight)) && isAbovePlayer && Time.time > lastAttackTime + attackCooldown)
         {
             PerformAttack();
             lastAttackTime = Time.time;

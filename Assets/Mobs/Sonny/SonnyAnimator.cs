@@ -133,7 +133,7 @@ public class SonnyAnimator : MonoBehaviour
     private void EndDash()
     {
         dashTimeCounter = 0f;
-        animator.CrossFade(sonnyDashEndHash, 0.1f, 0);
+        animator.CrossFade(sonnyDashEndHash, 0, 0);
         isDashing = false;
         canThrowSpikes = true;
         // sonnyCollider2D.enabled = true;
@@ -144,8 +144,9 @@ public class SonnyAnimator : MonoBehaviour
         if (animator != null)
         {
             AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-            isDashing = stateInfo.shortNameHash == sonnyDashHash ||
-                       stateInfo.shortNameHash == sonnyDashStartHash;
+            isDashing = stateInfo.shortNameHash == sonnyDashHash;
+            sonnyCollider2D.enabled = !isDashing;
+
         }
     }
 

@@ -384,6 +384,7 @@ MonoBehaviour:
   horizontalSpeed: 10
   verticalOffset: 3
   waitTime: 3
+  currentState: 3
 --- !u!61 &114396985
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6086,8 +6087,9 @@ MonoBehaviour:
   horizontalKnockbackForce: 5
   startTimeBtwAbility1: 1
   ability1Pos: {fileID: 1147490826}
-  ability1Range: 1.31
+  ability1Range: 1.32
   ability1Damage: 10
+  freezeTime: 2
   ability1VerticalKnockbackForce: 2
   ability1HorizontalKnockbackForce: 2
   ability1: {fileID: 428347199955909334, guid: e209d4d98161c454287780a22951cf21, type: 3}
@@ -6617,6 +6619,10 @@ PrefabInstance:
       propertyPath: health
       value: 175
       objectReference: {fileID: 0}
+    - target: {fileID: 3262885049722647436, guid: 3a27d08677f7cdd4c9e2c223d2f0e658, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6609279836218807146, guid: 3a27d08677f7cdd4c9e2c223d2f0e658, type: 3}
       propertyPath: rockForce
       value: 3
@@ -6624,6 +6630,18 @@ PrefabInstance:
     - target: {fileID: 6609279836218807146, guid: 3a27d08677f7cdd4c9e2c223d2f0e658, type: 3}
       propertyPath: rockSpawnRate
       value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 7347949808801219813, guid: 3a27d08677f7cdd4c9e2c223d2f0e658, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7347949808801219813, guid: 3a27d08677f7cdd4c9e2c223d2f0e658, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7347949808801219813, guid: 3a27d08677f7cdd4c9e2c223d2f0e658, type: 3}
+      propertyPath: m_Color.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7749810239087577397, guid: 3a27d08677f7cdd4c9e2c223d2f0e658, type: 3}
       propertyPath: m_LocalPosition.x

@@ -15,10 +15,9 @@ public class DigglyAnimator : MonoBehaviour
     private Animator animator;
     private DigglyAttack digglyAttack;
     private SpriteRenderer spriteRenderer;
-    private Rigidbody2D rb2d;
     private AnimationClip disappearClip;
 
-    public bool canTeleport = false;
+    public bool canTeleport = true;
     private bool isDisappearing = false;
 
     private void Awake()
@@ -26,7 +25,6 @@ public class DigglyAnimator : MonoBehaviour
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         digglyAttack = GetComponent<DigglyAttack>();
-        // rb2d = GetComponent<Rigidbody2D>();
     }
 
     private void Start()
@@ -66,7 +64,6 @@ public class DigglyAnimator : MonoBehaviour
         spriteRenderer.enabled = false;
         isDisappearing = false;
         canTeleport = true;
-        // rb2d.simulated = false;
     }
 
     public void PlayAppearAnimation()
