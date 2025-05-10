@@ -105,7 +105,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 3917463205101626374}
   force: 20
-  damage: 25
+  damage: 7
   horizontalKnockbackForce: 3
   verticalKnockbackForce: 2
 --- !u!50 &3917463205101626374

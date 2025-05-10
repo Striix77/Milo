@@ -4,17 +4,16 @@ public class Enemy : MonoBehaviour
 {
     public float health;
     public GameObject DeathSmokePrefab;
+    private WaveManager waveManager;
 
-    void Update()
+    void Start()
     {
-        if (health <= 0)
-        {
-            Invoke(nameof(DestroyEnemy), 0.1f);
-        }
+        waveManager = GameObject.Find("WaveManager").GetComponent<WaveManager>();
     }
 
     void DestroyEnemy()
     {
+        waveManager.RemoveEnemy(gameObject);
         gameObject.GetComponent<SpriteRenderer>().enabled = false;
         gameObject.GetComponent<Collider2D>().enabled = false;
         GameObject smoke = Instantiate(DeathSmokePrefab, transform.position, Quaternion.identity);
@@ -30,6 +29,10 @@ public class Enemy : MonoBehaviour
         {
             gameObject.GetComponent<SpriteRenderer>().color = Color.red;
             Invoke(nameof(ResetColor), 0.1f);
+        }
+        if (health <= 0)
+        {
+            Invoke(nameof(DestroyEnemy), 0.1f);
         }
     }
 
@@ -60,7 +63,14 @@ public class Enemy : MonoBehaviour
         }
         gameObject.GetComponent<Collider2D>().enabled = true;
         gameObject.GetComponent<Animator>().enabled = true;
-        gameObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
+        if (gameObject.name.Contains("Diggly"))
+        {
+            gameObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
+        }
+        else
+        {
+            gameObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
+        }
     }
 
     void ResetColor()

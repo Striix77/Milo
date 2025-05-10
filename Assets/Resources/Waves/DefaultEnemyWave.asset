@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bbd5d8210b884b43a4746c4feaa60e3, type: 3}
+  m_Name: DefaultEnemyWave
+  m_EditorClassIdentifier: 
+  digglyPrefab: {fileID: 8878530548823260919, guid: 3a27d08677f7cdd4c9e2c223d2f0e658, type: 3}
+  storkPrefab: {fileID: 6601601355949348949, guid: 2d37851b87f2eb24d949f7d5a7220af3, type: 3}
+  sonnyPrefab: {fileID: 3465781934592872042, guid: 2b8c4b7b69e19e441ba0c6c8dd7622d2, type: 3}
+  waveValue: -144
+  digglyCost: 7
+  storkCost: 11
+  sonnyCost: 18
+  spawnInterval: 2
+  digglyPoints: 12
+  storkPoints: 18
+  sonnyPoints: 31
+  costModifier: 10
+  pointsModifier: 25
+  dmgModifier: 10
+  healthModifier: 10
+  enemiesToSpawn:
+  - {fileID: 8878530548823260919, guid: 3a27d08677f7cdd4c9e2c223d2f0e658, type: 3}
+  - {fileID: 6601601355949348949, guid: 2d37851b87f2eb24d949f7d5a7220af3, type: 3}
+  - {fileID: 8878530548823260919, guid: 3a27d08677f7cdd4c9e2c223d2f0e658, type: 3}
+  - {fileID: 6601601355949348949, guid: 2d37851b87f2eb24d949f7d5a7220af3, type: 3}
+  - {fileID: 3465781934592872042, guid: 2b8c4b7b69e19e441ba0c6c8dd7622d2, type: 3}

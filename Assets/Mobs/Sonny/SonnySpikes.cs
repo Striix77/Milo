@@ -108,11 +108,5 @@ public class SonnySpikes : MonoBehaviour
         return avoidanceDirection;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            Destroy(gameObject);
-        }
-    }
+    
 }

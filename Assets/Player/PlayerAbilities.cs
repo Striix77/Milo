@@ -78,6 +78,7 @@ public class PlayerAbilities : MonoBehaviour
     private float posX2;
     private float posX3;
     private float posX4;
+    public Animator animator;
 
     void Start()
     {
@@ -94,24 +95,26 @@ public class PlayerAbilities : MonoBehaviour
 
     void Update()
     {
-        CheckForMelee();
-        CheckForAbility1();
-        CheckForUltimate();
-        MoveBarsWhenUlting();
+        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("MiloStart"))
+        {
+            CheckForMelee();
+            CheckForAbility1();
+            CheckForUltimate();
+            MoveBarsWhenUlting();
 
-        UpdateCameraZoom();
-        float cameraHeight = 2f * camera.orthographicSize;
-        float cameraWidth = cameraHeight * camera.aspect;
-        cameraBounds = new Bounds(camera.transform.position, new Vector3(cameraWidth, cameraHeight, 0));
-        Vector3 cameraCenter = cameraBounds.center;
+            UpdateCameraZoom();
+            float cameraHeight = 2f * camera.orthographicSize;
+            float cameraWidth = cameraHeight * camera.aspect;
+            cameraBounds = new Bounds(camera.transform.position, new Vector3(cameraWidth, cameraHeight, 0));
+            Vector3 cameraCenter = cameraBounds.center;
 
-        posX1 = cameraCenter.x + cameraBounds.extents.x * 0.5f;
-        posX2 = cameraCenter.x - cameraBounds.extents.x * 0.5f;
-        posX3 = cameraCenter.x + cameraBounds.extents.x * 0.75f;
-        posX4 = cameraCenter.x - cameraBounds.extents.x - 5f;
-        LerpToStartLocation();
-        LerpAroundTheCamera();
-
+            posX1 = cameraCenter.x + cameraBounds.extents.x * 0.5f;
+            posX2 = cameraCenter.x - cameraBounds.extents.x * 0.5f;
+            posX3 = cameraCenter.x + cameraBounds.extents.x * 0.75f;
+            posX4 = cameraCenter.x - cameraBounds.extents.x - 5f;
+            LerpToStartLocation();
+            LerpAroundTheCamera();
+        }
     }
 
     void CheckForMelee()

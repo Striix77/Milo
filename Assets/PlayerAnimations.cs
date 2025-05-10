@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class PlayerAnimations : MonoBehaviour
 {
+    public static readonly int Start = Animator.StringToHash("MiloStart");
     public static readonly int Idle = Animator.StringToHash("PlayerIdle");
     public static readonly int Walk = Animator.StringToHash("PlayerWalking");
     public static readonly int Jump = Animator.StringToHash("PlayerJump");
@@ -10,7 +11,7 @@ public class PlayerAnimations : MonoBehaviour
     public static readonly int Dash = Animator.StringToHash("PlayerDashing");
     public static readonly int Melee = Animator.StringToHash("PlayerMelee");
 
-    private static int currentState = Idle;
+    private static int currentState = Start;
 
     public static void SetState(int state)
     {

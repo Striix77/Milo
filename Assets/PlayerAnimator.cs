@@ -13,7 +13,10 @@ public class PlayerAnimator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        AnimationControl();
+        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("MiloStart"))
+        {
+            AnimationControl();
+        }
     }
 
     private void AnimationControl()

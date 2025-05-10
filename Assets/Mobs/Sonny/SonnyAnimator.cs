@@ -106,14 +106,7 @@ public class SonnyAnimator : MonoBehaviour
     {
         // sonnyCollider2D.enabled = false;
 
-        if (playerTransform != null)
-        {
-            dashDirection = (playerTransform.position - transform.position).normalized;
-        }
-        else
-        {
-            dashDirection = transform.right;
-        }
+
 
         dashTimeCounter = 0f;
 
@@ -125,9 +118,43 @@ public class SonnyAnimator : MonoBehaviour
 
     private void PerformDash()
     {
+        if (playerTransform != null)
+        {
+            dashDirection = (playerTransform.position - transform.position).normalized;
+        }
+        else
+        {
+            dashDirection = transform.right;
+        }
+        Vector2 avoidance = CalculateAvoidanceDirection();
+        dashDirection = (dashDirection * 0.7f) + (avoidance * 0.3f);
+        dashDirection.Normalize();
         Vector2 dashMovement = dashDirection * dashSpeed * Time.deltaTime;
-        transform.position += new Vector3(dashMovement.x, dashMovement.y, 0);
+        Vector3 newPosition = transform.position + new Vector3(dashMovement.x, dashMovement.y, 0);
+        transform.position = newPosition;
+    }
+    private Vector2 CalculateAvoidanceDirection()
+    {
+        Vector2 avoidanceDirection = Vector2.zero;
 
+        Collider2D[] nearbyObjects = Physics2D.OverlapCircleAll(transform.position, 0.5f);
+
+        foreach (Collider2D nearbyObject in nearbyObjects)
+        {
+            if (nearbyObject.gameObject == gameObject || !nearbyObject.gameObject.name.Contains("Sonny"))
+                continue;
+
+            Vector2 directionAway = (Vector2)transform.position - (Vector2)nearbyObject.transform.position;
+            float distance = directionAway.magnitude;
+
+            if (distance > 0)
+            {
+                float strength = (0.5f - distance) / 0.5f;
+                avoidanceDirection += directionAway.normalized * strength;
+            }
+        }
+
+        return avoidanceDirection;
     }
 
     private void EndDash()

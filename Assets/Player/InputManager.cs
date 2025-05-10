@@ -46,6 +46,14 @@ public class InputManager : MonoBehaviour
         if (!playerAbilities.isUlting)
         {
             Movement = movementAction.ReadValue<Vector2>();
+            if (Movement.x > 0)
+            {
+                Movement.x = 1;
+            }
+            else if (Movement.x < 0)
+            {
+                Movement.x = -1;
+            }
             JumpWasPressed = jumpAction.WasPressedThisFrame();
             JumpWasReleased = jumpAction.WasReleasedThisFrame();
             JumpIsHeld = jumpAction.IsPressed();

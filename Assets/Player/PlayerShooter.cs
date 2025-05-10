@@ -17,13 +17,13 @@ public class PlayerShooter : MonoBehaviour
     private float timeBtwFire;
     public float startTimeBtwFire;
 
-
+    public Animator animator;
     void Update()
     {
         HandleRotation();
         if (timeBtwFire <= 0)
         {
-            if (InputManager.FireIsHeld)
+            if (InputManager.FireIsHeld && !animator.GetCurrentAnimatorStateInfo(0).IsName("MiloStart"))
             {
 
                 if (SegmentPos == null || SegmentPos.Length != lineRenderer.positionCount)

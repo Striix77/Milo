@@ -24,6 +24,8 @@ public class Tail : MonoBehaviour
     [SerializeField][Range(0.0f, 0.3f)] private float fallOffset = 0.05f;
     private Vector3 originalTargetDirLocalPos;
 
+    public Animator animator;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

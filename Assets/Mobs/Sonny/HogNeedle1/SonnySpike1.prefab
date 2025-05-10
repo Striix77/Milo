@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5693448079360490026}
   - component: {fileID: -8999182840316295193}
   - component: {fileID: 1103219562450083780}
+  - component: {fileID: 46478037270778469}
   m_Layer: 0
   m_Name: SonnySpike1
   m_TagString: Spike
@@ -182,3 +183,16 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.104068115, y: 0.22211325}
   m_EdgeRadius: 0
+--- !u!114 &46478037270778469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2315577471428549416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b124d1d1b6c276c4aa5b72d020ba738a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 20

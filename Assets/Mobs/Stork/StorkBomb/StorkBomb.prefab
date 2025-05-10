@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4075105124795154225}
   - component: {fileID: 834835030385985488}
   - component: {fileID: 3285929898615485728}
+  - component: {fileID: -7725308826709729928}
   m_Layer: 11
   m_Name: StorkBomb
   m_TagString: Untagged
@@ -185,3 +186,18 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.08692229, y: 0.22076683}
   m_EdgeRadius: 0
+--- !u!114 &-7725308826709729928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4319125498014437121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b124d1d1b6c276c4aa5b72d020ba738a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 50
+  spawnPrefabWhenHit: 1
+  prefabToSpawnOnHit: {fileID: 2809313445998429404, guid: d552cf71328decc4d94674c72a889fc3, type: 3}

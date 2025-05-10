@@ -31,6 +31,10 @@ public class ShadowAttack1 : MonoBehaviour
             coll.gameObject.GetComponent<Rigidbody2D>().AddForce(horizontalKnockback.normalized * horizontalKnockbackForce + new Vector2(0, 1) * verticalKnockbackForce, ForceMode2D.Impulse);
             DestroyAttack();
         }
+        else if (coll.gameObject.CompareTag("Ground"))
+        {
+            DestroyAttack();
+        }
     }
 
     void DestroyAttack()

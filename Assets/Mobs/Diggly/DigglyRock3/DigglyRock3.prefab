@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 5169314609441732435}
   - component: {fileID: 813475183486542383}
   - component: {fileID: 6663029250656485137}
+  - component: {fileID: -1014357818829508996}
+  - component: {fileID: 4252416144535829386}
   m_Layer: 11
   m_Name: DigglyRock3
   m_TagString: Untagged
@@ -169,7 +171,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -185,3 +187,29 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.08438063, y: 0.04736662}
   m_EdgeRadius: 0
+--- !u!114 &-1014357818829508996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4605190595731472073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b124d1d1b6c276c4aa5b72d020ba738a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 1
+--- !u!114 &4252416144535829386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4605190595731472073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b124d1d1b6c276c4aa5b72d020ba738a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 7

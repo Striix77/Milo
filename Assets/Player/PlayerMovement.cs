@@ -72,11 +72,14 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        CountTimers();
-        JumpChecks();
-        LandCheck();
+        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("MiloStart"))
+        {
+            CountTimers();
+            JumpChecks();
+            LandCheck();
 
-        DashCheck();
+            DashCheck();
+        }
     }
 
     private void FixedUpdate()
@@ -87,14 +90,16 @@ public class PlayerMovement : MonoBehaviour
         Fall();
         Dash();
         ApplyVelocityRotation();
-
-        if (isGrounded)
+        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("MiloStart"))
         {
-            Move(MovementStats.GroundAcceleration, MovementStats.GroundDeceleration, InputManager.Movement);
-        }
-        else
-        {
-            Move(MovementStats.AirAcceleration, MovementStats.AirDeceleration, InputManager.Movement);
+            if (isGrounded)
+            {
+                Move(MovementStats.GroundAcceleration, MovementStats.GroundDeceleration, InputManager.Movement);
+            }
+            else
+            {
+                Move(MovementStats.AirAcceleration, MovementStats.AirDeceleration, InputManager.Movement);
+            }
         }
         ApplyVelocity();
     }
@@ -104,6 +109,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!isDashing)
         {
+            Debug.Log("Moving: " + movementInput.y + " " + movementInput.x);
             if (movementInput.x != 0)
             {
                 // check for direction

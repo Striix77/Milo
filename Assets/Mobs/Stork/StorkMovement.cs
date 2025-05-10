@@ -33,17 +33,20 @@ public class StorkMovement : MonoBehaviour
             spriteWidth = 1f;
         }
 
-        PositionAtLeftEdge();
+        PositionAtRandomEdge();
     }
 
-    private void PositionAtLeftEdge()
+    private void PositionAtRandomEdge()
     {
         Vector2 screenBounds = GetCurrentScreenBounds();
 
         float leftEdge = mainCamera.transform.position.x - screenBounds.x - spriteWidth;
+        float rightEdge = mainCamera.transform.position.x + screenBounds.x + spriteWidth;
         float yPosition = mainCamera.transform.position.y + verticalOffset;
 
-        transform.position = new Vector3(leftEdge, yPosition, 0);
+        float randomEdge = Random.Range(0, 2) == 0 ? leftEdge : rightEdge;
+        currentState = randomEdge == leftEdge ? StorkState.MovingLeft : StorkState.MovingRight;
+        transform.position = new Vector3(randomEdge, yPosition, 0);
 
         transform.localScale = new Vector3(-3, 3, 3);
     }
