@@ -194,7 +194,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17cfb1b69bbb03048a94c5be32c7360b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tilemap: {fileID: 0}
 --- !u!114 &2093905964884127401
 MonoBehaviour:
   m_ObjectHideFlags: 0

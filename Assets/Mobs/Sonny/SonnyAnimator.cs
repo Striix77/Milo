@@ -18,6 +18,7 @@ public class SonnyAnimator : MonoBehaviour
     public GameObject SpikePrefab1;
     public GameObject SpikePrefab2;
     public Transform SpikeSpawnPoint;
+    public float dmgModifier = 1f;
 
     private float dashTimeCounter = 0f;
     public bool isDashing = false;
@@ -81,11 +82,13 @@ public class SonnyAnimator : MonoBehaviour
                     if (randomIndex == 0)
                     {
                         GameObject spike = Instantiate(SpikePrefab1, SpikeSpawnPoint.position + new Vector3(randomPositionOffset, 0f, 0f), Quaternion.identity);
+                        spike.GetComponent<EnemyProjectile>().damage += spike.GetComponent<EnemyProjectile>().damage * dmgModifier / 100;
                         spike.transform.localScale = new Vector3(randomSizeMultiplier, randomSizeMultiplier, 1f);
                     }
                     else
                     {
                         GameObject spike = Instantiate(SpikePrefab2, SpikeSpawnPoint.position + new Vector3(randomPositionOffset, 0f, 0f), Quaternion.identity);
+                        spike.GetComponent<EnemyProjectile>().damage += spike.GetComponent<EnemyProjectile>().damage * dmgModifier / 100;
                         spike.transform.localScale = new Vector3(randomSizeMultiplier, randomSizeMultiplier, 1f);
                     }
                 }

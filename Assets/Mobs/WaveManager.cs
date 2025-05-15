@@ -11,6 +11,7 @@ public class WaveManager : MonoBehaviour
     private float waveCooldown = 0f;
     private Camera mainCamera;
     private List<GameObject> enemiesAlive;
+    private int waveValue = 30;
 
     void Start()
     {
@@ -55,9 +56,11 @@ public class WaveManager : MonoBehaviour
 
     public EnemyWave GenerateNewWave()
     {
-        EnemyWave newWave = Resources.Load<EnemyWave>("Waves/DefaultEnemyWave");
+        EnemyWave originalWave = Resources.Load<EnemyWave>("Waves/DefaultEnemyWave");
+        EnemyWave newWave = Instantiate(originalWave);
         if ((waveCounter + 1) % 5 == 0)
         {
+            waveValue += waveValue * newWave.waveValueModifier / 100;
             newWave.digglyCost += newWave.digglyCost * newWave.costModifier / 100;
             newWave.storkCost += newWave.storkCost * newWave.costModifier / 100;
             newWave.sonnyCost += newWave.sonnyCost * newWave.costModifier / 100;
@@ -69,34 +72,56 @@ public class WaveManager : MonoBehaviour
             newWave.storkPrefab.GetComponent<Enemy>().health += newWave.storkPrefab.GetComponent<Enemy>().health * newWave.healthModifier / 100;
             newWave.sonnyPrefab.GetComponent<Enemy>().health += newWave.sonnyPrefab.GetComponent<Enemy>().health * newWave.healthModifier / 100;
 
-            newWave.digglyPrefab.GetComponent<EnemyProjectile>().damage += newWave.digglyPrefab.GetComponent<EnemyProjectile>().damage * newWave.dmgModifier / 100;
-            newWave.storkPrefab.GetComponent<EnemyProjectile>().damage += newWave.storkPrefab.GetComponent<EnemyProjectile>().damage * newWave.dmgModifier / 100;
-            newWave.sonnyPrefab.GetComponent<EnemyProjectile>().damage += newWave.sonnyPrefab.GetComponent<EnemyProjectile>().damage * newWave.dmgModifier / 100;
+            newWave.digglyPrefab.GetComponent<DigglyAttack>().dmgModifier += newWave.digglyPrefab.GetComponent<DigglyAttack>().dmgModifier * newWave.dmgModifier / 100;
+            newWave.storkPrefab.GetComponent<StorkAttack>().dmgModifier += newWave.storkPrefab.GetComponent<StorkAttack>().dmgModifier * newWave.dmgModifier / 100;
+            newWave.sonnyPrefab.GetComponent<SonnyAnimator>().dmgModifier += newWave.sonnyPrefab.GetComponent<SonnyAnimator>().dmgModifier * newWave.dmgModifier / 100;
 
 
         }
+        newWave.waveValue = waveValue;
         if (currentWave != null)
         {
             newWave.waveValue += currentWave.waveValue;
+            newWave.digglyCost = currentWave.digglyCost;
+            newWave.storkCost = currentWave.storkCost;
+            newWave.sonnyCost = currentWave.sonnyCost;
+            newWave.digglyPoints = currentWave.digglyPoints;
+            newWave.storkPoints = currentWave.storkPoints;
+            newWave.sonnyPoints = currentWave.sonnyPoints;
         }
+
+        Debug.Log($"Wave {waveCounter + 1} - Wave Value: {newWave.waveValue} - Diggly: {newWave.digglyCost}, Stork: {newWave.storkCost}, Sonny: {newWave.sonnyCost}");
         while (newWave.waveValue >= newWave.digglyCost || newWave.waveValue >= newWave.storkCost || newWave.waveValue >= newWave.sonnyCost)
         {
             int randomEnemyIndex = Random.Range(0, 3);
             switch (randomEnemyIndex)
             {
                 case 0:
+                    if (newWave.waveValue < newWave.digglyCost)
+                    {
+                        continue;
+                    }
                     newWave.enemiesToSpawn.Add(newWave.digglyPrefab);
                     newWave.waveValue -= newWave.digglyCost;
                     break;
                 case 1:
+                    if (newWave.waveValue < newWave.storkCost)
+                    {
+                        continue;
+                    }
                     newWave.enemiesToSpawn.Add(newWave.storkPrefab);
                     newWave.waveValue -= newWave.storkCost;
                     break;
                 case 2:
+                    if (newWave.waveValue < newWave.sonnyCost)
+                    {
+                        continue;
+                    }
                     newWave.enemiesToSpawn.Add(newWave.sonnyPrefab);
                     newWave.waveValue -= newWave.sonnyCost;
                     break;
             }
+            Debug.Log($"Wave {waveCounter + 1} - Wave Value: {newWave.waveValue} - Diggly: {newWave.digglyCost}, Stork: {newWave.storkCost}, Sonny: {newWave.sonnyCost}");
         }
         return newWave;
     }

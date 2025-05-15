@@ -15,6 +15,7 @@ public class StorkAttack : MonoBehaviour
     private int storkNoBombAnimation = Animator.StringToHash("Stork");
     private Animator animator;
     private StorkMovement storkMovement;
+    public float dmgModifier = 1f;
 
     void Start()
     {
@@ -53,6 +54,7 @@ public class StorkAttack : MonoBehaviour
     {
         animator.CrossFade(storkNoBombAnimation, 0.1f, 0);
         GameObject storkBomb = Instantiate(StorkBombPrefab, StorkBombSpawnPoint.position, Quaternion.identity);
+        storkBomb.GetComponent<EnemyProjectile>().damage += storkBomb.GetComponent<EnemyProjectile>().damage * dmgModifier / 100;
         Destroy(storkBomb, 5f);
     }
 }

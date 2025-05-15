@@ -103,8 +103,9 @@ public class Tail : MonoBehaviour
         {
             // Convert mouse position to world space
             Vector3 mousePos = Input.mousePosition;
-            mousePos.z = Vector3.Distance(mainCamera.transform.position, transform.position); // Distance from camera
+            mousePos.z = 10f; // Fixed distance for orthographic camera
             Vector3 mouseWorldPos = mainCamera.ScreenToWorldPoint(mousePos);
+            // mousePos.z = Vector3.Distance(mainCamera.transform.position, transform.position); // Distance from camera
 
             // Smooth movement of last segment towards mouse
             SegmentPos[Length - 1] = Vector3.SmoothDamp(

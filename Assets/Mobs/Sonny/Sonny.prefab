@@ -227,7 +227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa0340e78671327459201bd99d1d6d68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 150
+  health: 250
   DeathSmokePrefab: {fileID: 537072474846027865, guid: 0d05b94021bc24142923df4a19981b9c, type: 3}
 --- !u!50 &6859695511901857245
 Rigidbody2D:

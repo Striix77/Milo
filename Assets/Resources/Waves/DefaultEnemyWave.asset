@@ -15,7 +15,7 @@ MonoBehaviour:
   digglyPrefab: {fileID: 8878530548823260919, guid: 3a27d08677f7cdd4c9e2c223d2f0e658, type: 3}
   storkPrefab: {fileID: 6601601355949348949, guid: 2d37851b87f2eb24d949f7d5a7220af3, type: 3}
   sonnyPrefab: {fileID: 3465781934592872042, guid: 2b8c4b7b69e19e441ba0c6c8dd7622d2, type: 3}
-  waveValue: -144
+  waveValue: 30
   digglyCost: 7
   storkCost: 11
   sonnyCost: 18
@@ -23,13 +23,9 @@ MonoBehaviour:
   digglyPoints: 12
   storkPoints: 18
   sonnyPoints: 31
+  waveValueModifier: 15
   costModifier: 10
   pointsModifier: 25
-  dmgModifier: 10
+  dmgModifier: 15
   healthModifier: 10
-  enemiesToSpawn:
-  - {fileID: 8878530548823260919, guid: 3a27d08677f7cdd4c9e2c223d2f0e658, type: 3}
-  - {fileID: 6601601355949348949, guid: 2d37851b87f2eb24d949f7d5a7220af3, type: 3}
-  - {fileID: 8878530548823260919, guid: 3a27d08677f7cdd4c9e2c223d2f0e658, type: 3}
-  - {fileID: 6601601355949348949, guid: 2d37851b87f2eb24d949f7d5a7220af3, type: 3}
-  - {fileID: 3465781934592872042, guid: 2b8c4b7b69e19e441ba0c6c8dd7622d2, type: 3}
+  enemiesToSpawn: []

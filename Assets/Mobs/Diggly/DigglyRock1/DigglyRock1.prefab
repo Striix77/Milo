@@ -200,8 +200,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 1
-  applyKnockback: 0
-  knockbackForce: 5
+  spawnPrefabWhenHit: 0
+  prefabToSpawnOnHit: {fileID: 0}
 --- !u!114 &4840340337495140930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,6 +214,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b124d1d1b6c276c4aa5b72d020ba738a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 11
-  applyKnockback: 1
-  knockbackForce: 500
+  damage: 7
+  spawnPrefabWhenHit: 0
+  prefabToSpawnOnHit: {fileID: 0}

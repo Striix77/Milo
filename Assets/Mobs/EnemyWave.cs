@@ -15,6 +15,7 @@ public class EnemyWave : ScriptableObject
     public int digglyPoints = 10;
     public int storkPoints = 15;
     public int sonnyPoints = 25;
+    public int waveValueModifier = 15;
     public int costModifier = 1;
     public int pointsModifier = 1;
     public int dmgModifier = 1;

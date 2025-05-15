@@ -15,6 +15,7 @@ public class DigglyAttack : MonoBehaviour
     private float timer = 0f;
     private float attackTimer = 0f;
     public bool isAttacking = false;
+    public float dmgModifier = 1f;
 
 
 
@@ -51,12 +52,14 @@ public class DigglyAttack : MonoBehaviour
         {
             GameObject rockPrefab = GetRandomRockPrefab();
             GameObject rock = Instantiate(rockPrefab, AttackPosition.position + new Vector3(GetRandomRange(-0.5f, 0.5f), 0, 0), Quaternion.identity);
+            rock.GetComponent<EnemyProjectile>().damage = rock.GetComponent<EnemyProjectile>().damage * dmgModifier / 100;
             rock.GetComponent<Rigidbody2D>().AddForce(GetRandomDirection() * rockForce, ForceMode2D.Impulse);
             Destroy(rock, DestroyDelay);
             timer = 0f;
         }
 
     }
+
 
     private float GetRandomRange(float min, float max)
     {

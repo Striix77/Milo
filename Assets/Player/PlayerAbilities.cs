@@ -404,8 +404,8 @@ public class PlayerAbilities : MonoBehaviour
         }
         else
         {
-            upperBar.anchoredPosition = Vector2.Lerp(upperBar.anchoredPosition, new Vector2(upperBar.anchoredPosition.x, 645), barLerpSpeed * Time.deltaTime);
-            lowerBar.anchoredPosition = Vector2.Lerp(lowerBar.anchoredPosition, new Vector2(lowerBar.anchoredPosition.x, -645), barLerpSpeed * Time.deltaTime);
+            upperBar.anchoredPosition = Vector2.Lerp(upperBar.anchoredPosition, new Vector2(upperBar.anchoredPosition.x, 190), barLerpSpeed * Time.deltaTime);
+            lowerBar.anchoredPosition = Vector2.Lerp(lowerBar.anchoredPosition, new Vector2(lowerBar.anchoredPosition.x, -190), barLerpSpeed * Time.deltaTime);
         }
     }
 
