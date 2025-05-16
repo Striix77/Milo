@@ -5,16 +5,18 @@ public class Enemy : MonoBehaviour
     public float health;
     public GameObject DeathSmokePrefab;
     private WaveManager waveManager;
+    private SpriteRenderer spriteRenderer;
 
     void Start()
     {
+        spriteRenderer = GetComponent<SpriteRenderer>();
         waveManager = GameObject.Find("WaveManager").GetComponent<WaveManager>();
     }
 
     void DestroyEnemy()
     {
         waveManager.RemoveEnemy(gameObject);
-        gameObject.GetComponent<SpriteRenderer>().enabled = false;
+        spriteRenderer.enabled = false;
         gameObject.GetComponent<Collider2D>().enabled = false;
         GameObject smoke = Instantiate(DeathSmokePrefab, transform.position, Quaternion.identity);
         Destroy(smoke, 0.5f);
@@ -27,7 +29,7 @@ public class Enemy : MonoBehaviour
         Debug.Log(health);
         if (changeColor)
         {
-            gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+            spriteRenderer.color = Color.red;
             Invoke(nameof(ResetColor), 0.1f);
         }
         if (health <= 0)
@@ -38,7 +40,7 @@ public class Enemy : MonoBehaviour
 
     public void Freeze(float freezeTime)
     {
-        gameObject.GetComponent<SpriteRenderer>().color = new Color(0.3981131f, 1f, 0.955977f);
+        spriteRenderer.color = new Color(0.3981131f, 1f, 0.955977f);
         MonoBehaviour[] scripts = gameObject.GetComponents<MonoBehaviour>();
         foreach (MonoBehaviour script in scripts)
         {
@@ -55,7 +57,7 @@ public class Enemy : MonoBehaviour
 
     public void Unfreeze()
     {
-        gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+        spriteRenderer.color = Color.white;
         MonoBehaviour[] scripts = gameObject.GetComponents<MonoBehaviour>();
         foreach (MonoBehaviour script in scripts)
         {
@@ -75,6 +77,6 @@ public class Enemy : MonoBehaviour
 
     void ResetColor()
     {
-        gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+        spriteRenderer.color = Color.white;
     }
 }

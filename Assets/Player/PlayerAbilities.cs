@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerAbilities : MonoBehaviour
 {
@@ -29,6 +31,7 @@ public class PlayerAbilities : MonoBehaviour
     public static bool isAbility1ing = false;
     public GameObject ability1;
     public ParticleSystem ability1Effect;
+    public Image ability1Image;
 
     [Header("Ultimate Settings")]
     public float startTimeBtwUltimate;
@@ -42,6 +45,9 @@ public class PlayerAbilities : MonoBehaviour
     public GameObject ultimate;
     private GameObject ultimateClone;
     public ParticleSystem ultimateEffect;
+    public Image ultimateImage;
+    public Sprite ultimateSprite;
+    public Sprite ultimateCooldownSprite;
 
     public CinemachineVirtualCamera vCam;
     private CinemachineBasicMultiChannelPerlin vCamNoise;
@@ -79,9 +85,14 @@ public class PlayerAbilities : MonoBehaviour
     private float posX3;
     private float posX4;
     public Animator animator;
+    public TextMeshProUGUI ability1Text;
+    public TextMeshProUGUI ultimateText;
 
     void Start()
     {
+        ability1Text.text = "";
+        ultimateText.text = "0%";
+        timeBtwUltimate = startTimeBtwUltimate;
         if (cinemachineBrain != null)
         {
             camera = cinemachineBrain.OutputCamera;
@@ -154,6 +165,9 @@ public class PlayerAbilities : MonoBehaviour
         if (timeBtwUltimate <= 0)
         {
             isUlting = false;
+            ultimateText.text = "";
+            ultimateImage.color = new Color(1f, 1f, 1f, 1f);
+            ultimateImage.sprite = ultimateSprite;
             if (InputManager.UltimateWasPressed)
             {
                 isUlting = true;
@@ -166,9 +180,12 @@ public class PlayerAbilities : MonoBehaviour
             }
 
         }
-        else
+        else if (ultimateClone == null)
         {
             timeBtwUltimate -= Time.deltaTime;
+            ultimateImage.color = new Color(0.781132f, 0.781132f, 0.781132f, 1f);
+            ultimateImage.sprite = ultimateCooldownSprite;
+            ultimateText.text = (100 - Mathf.Ceil(timeBtwUltimate / startTimeBtwUltimate * 100)).ToString() + "%";
         }
 
 
@@ -362,6 +379,8 @@ public class PlayerAbilities : MonoBehaviour
         if (timeBtwAbility1 <= 0)
         {
             isAbility1ing = false;
+            ability1Text.text = "";
+            ability1Image.color = new Color(1f, 1f, 1f, 1f);
             if (InputManager.Ability1WasPressed && !isUlting)
             {
                 isAbility1ing = true;
@@ -389,6 +408,8 @@ public class PlayerAbilities : MonoBehaviour
         else
         {
             timeBtwAbility1 -= Time.deltaTime;
+            ability1Image.color = new Color(0.781132f, 0.781132f, 0.781132f, 1f);
+            ability1Text.text = Mathf.Ceil(timeBtwAbility1).ToString();
         }
 
 

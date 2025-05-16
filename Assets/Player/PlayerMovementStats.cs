@@ -56,7 +56,7 @@ public class PlayerMovementStats : ScriptableObject
     [Header("Dashing")]
     [Range(0f, 1f)] public float DashTime = 0.11f;
     [Range(1f, 200f)] public float DashSpeed = 40f;
-    [Range(0f, 1f)] public float DashCooldown = 0.5f;
+    [Range(0f, 5f)] public float DashCooldown = 0.5f;
     [Range(0, 5)] public int NumberOfDashes = 2;
     [Range(0f, 0.5f)] public float DashDiagonalBias = 0.4f;
     [Range(0.01f, 5f)] public float DashGravityOnReleaseMultiplier = 1f;

@@ -14,7 +14,7 @@ public class DigglyMovement : MonoBehaviour
         digglyAnimator = GetComponent<DigglyAnimator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         mainCamera = Camera.main;
-        tilemap = FindAnyObjectByType<Tilemap>();
+        tilemap = GameObject.Find("Tilemap").GetComponent<Tilemap>();
         digglyAnimator.canTeleport = true;
         while (digglyAnimator.canTeleport)
         {

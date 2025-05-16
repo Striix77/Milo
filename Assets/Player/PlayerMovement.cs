@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.PlayerLoop;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -33,6 +35,9 @@ public class PlayerMovement : MonoBehaviour
     private float fastFallTime;
     private float fastFallReleaseSpeed;
     private int numberOfJumpsUsed;
+    public Image jumpImage;
+    public Sprite jumpSprite;
+    public Sprite jumpCooldownSprite;
 
 
     // Jump Apex
@@ -51,12 +56,16 @@ public class PlayerMovement : MonoBehaviour
     public static bool isDashing;
     private bool isAirDashing;
     private float dashTimer;
-    private float dashOnGroundTimer;
+    private float dashCooldownTimer;
     private int numberOfDashesUsed;
     private Vector2 dashDirection;
     public static bool isDashFastFalling;
     private float dashFastFallTime;
     private float dashFastFallReleaseSpeed;
+    public Image dashImage;
+    public TextMeshProUGUI dashText;
+    public Sprite dashSprite;
+    public Sprite dashCooldownSprite;
 
 
     // Animations
@@ -68,6 +77,7 @@ public class PlayerMovement : MonoBehaviour
         isFacingRight = true;
         rb = GetComponent<Rigidbody2D>();
         animator = visualContainer.GetComponentInChildren<Animator>();
+        dashText.text = "";
     }
 
     private void Update()
@@ -272,7 +282,16 @@ public class PlayerMovement : MonoBehaviour
             isFastFalling = false;
         }
 
-
+        if (numberOfJumpsUsed >= MovementStats.NumberOfJumps)
+        {
+            jumpImage.color = new Color(0.781132f, 0.781132f, 0.781132f, 1f);
+            jumpImage.sprite = jumpCooldownSprite;
+        }
+        else
+        {
+            jumpImage.color = new Color(1, 1, 1, 1);
+            jumpImage.sprite = jumpSprite;
+        }
     }
 
     private void InitiateJump(int jumpsUsed)
@@ -435,11 +454,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void DashCheck()
     {
-        if (InputManager.DashWasPressed)
+        if (InputManager.DashWasPressed && dashCooldownTimer < 0)
         {
             //ground dash
 
-            if (isGrounded && dashOnGroundTimer < 0 && !isDashing)
+            if (isGrounded && !isDashing)
             {
                 InitiateDash();
             }
@@ -505,7 +524,7 @@ public class PlayerMovement : MonoBehaviour
         numberOfDashesUsed++;
         isDashing = true;
         dashTimer = 0f;
-        dashOnGroundTimer = MovementStats.DashCooldown;
+        dashCooldownTimer = MovementStats.DashCooldown;
 
         ResetJumpValues();
     }
@@ -581,7 +600,7 @@ public class PlayerMovement : MonoBehaviour
     private void ResetDashValues()
     {
         isDashFastFalling = false;
-        dashOnGroundTimer = -0.01f;
+        // dashOnGroundTimer = -0.01f;
     }
 
     private void ResetDashes()
@@ -648,6 +667,20 @@ public class PlayerMovement : MonoBehaviour
     {
         jumpBufferTimer -= Time.deltaTime;
 
+        dashCooldownTimer -= Time.deltaTime;
+        if (dashCooldownTimer < 0)
+        {
+            dashText.text = "";
+            dashImage.color = new Color(1, 1, 1, 1);
+            dashImage.sprite = dashSprite;
+        }
+        else
+        {
+            dashText.text = Mathf.Ceil(dashCooldownTimer).ToString();
+            dashImage.color = new Color(0.781132f, 0.781132f, 0.781132f, 1);
+            dashImage.sprite = dashCooldownSprite;
+        }
+
         if (!isGrounded)
         {
             jumpCoyoteTimer -= Time.deltaTime;
@@ -655,7 +688,6 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             jumpCoyoteTimer = MovementStats.JumpCoyoteTime;
-            dashOnGroundTimer -= Time.deltaTime;
         }
     }
 

@@ -46,8 +46,8 @@ MonoBehaviour:
   VisualizationSteps: 90
   DashTime: 0.148
   DashSpeed: 35
-  DashCooldown: 0.5
-  NumberOfDashes: 2
+  DashCooldown: 3
+  NumberOfDashes: 1
   DashDiagonalBias: 0.4
   DashGravityOnReleaseMultiplier: 1
   DashTimeForUpwardsCancel: 0.027
