@@ -148,7 +148,7 @@ public class HurricaneAnimator : MonoBehaviour
 
         if (destroyAfterFade)
         {
-            Destroy(gameObject);
+            Destroy(gameObject, 0.5f);
         }
 
     }

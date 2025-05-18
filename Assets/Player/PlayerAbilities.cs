@@ -112,8 +112,8 @@ public class PlayerAbilities : MonoBehaviour
             CheckForAbility1();
             CheckForUltimate();
             MoveBarsWhenUlting();
-
             UpdateCameraZoom();
+
             float cameraHeight = 2f * camera.orthographicSize;
             float cameraWidth = cameraHeight * camera.aspect;
             cameraBounds = new Bounds(camera.transform.position, new Vector3(cameraWidth, cameraHeight, 0));
@@ -123,8 +123,11 @@ public class PlayerAbilities : MonoBehaviour
             posX2 = cameraCenter.x - cameraBounds.extents.x * 0.5f;
             posX3 = cameraCenter.x + cameraBounds.extents.x * 0.75f;
             posX4 = cameraCenter.x - cameraBounds.extents.x - 5f;
-            LerpToStartLocation();
-            LerpAroundTheCamera();
+            if (isUlting)
+            {
+                LerpToStartLocation();
+                LerpAroundTheCamera();
+            }
         }
     }
 
@@ -160,6 +163,7 @@ public class PlayerAbilities : MonoBehaviour
         if (ultimateClone == null)
         {
             isUlting = false;
+            
         }
 
         if (timeBtwUltimate <= 0)

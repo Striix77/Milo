@@ -17,6 +17,7 @@ public class WaveManager : MonoBehaviour
     {
         mainCamera = Camera.main;
         enemiesAlive = new List<GameObject>();
+        waveCooldown = timeBetweenWaves;
     }
 
     void Update()
