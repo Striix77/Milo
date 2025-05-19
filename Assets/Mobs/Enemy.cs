@@ -6,11 +6,13 @@ public class Enemy : MonoBehaviour
     public GameObject DeathSmokePrefab;
     private WaveManager waveManager;
     private SpriteRenderer spriteRenderer;
+    private SkillTreeManager skillTreeManager;
 
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         waveManager = GameObject.Find("WaveManager").GetComponent<WaveManager>();
+        skillTreeManager = GameObject.Find("Skill Tree").GetComponent<SkillTreeManager>();
     }
 
     void DestroyEnemy()
@@ -25,7 +27,7 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage(int damage, bool changeColor = true)
     {
-        health -= damage;
+        health -= skillTreeManager.ApplyDmgBuff(damage);
         Debug.Log(health);
         if (changeColor)
         {

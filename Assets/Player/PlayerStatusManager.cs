@@ -33,7 +33,6 @@ public class PlayerStatusManager : MonoBehaviour
     private float currentZoomVelocity = 0f;
     private Collider2D[] playerColliders;
     private PlayerMovement playerMovementScript;
-    private PlayerAbilities playerAbilitiesScript;
     private PlayerAnimator playerAnimator;
     public PlayerShooter playerShooterScript;
     private Rigidbody2D rb;
@@ -53,7 +52,6 @@ public class PlayerStatusManager : MonoBehaviour
 
         playerColliders = GetComponentsInChildren<Collider2D>();
         playerMovementScript = GetComponent<PlayerMovement>();
-        playerAbilitiesScript = GetComponent<PlayerAbilities>();
         playerAnimator = GetComponent<PlayerAnimator>();
         rb = GetComponent<Rigidbody2D>();
     }
@@ -121,7 +119,7 @@ public class PlayerStatusManager : MonoBehaviour
         isDead = true;
         deathScreenImage.gameObject.SetActive(true);
         playerMovementScript.enabled = false;
-        playerAbilitiesScript.enabled = false;
+        playerAbilities.enabled = false;
         playerAnimator.enabled = false;
         playerShooterScript.enabled = false;
         foreach (Collider2D collider in playerColliders)

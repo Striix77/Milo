@@ -35,7 +35,7 @@ public class PlayerAbilities : MonoBehaviour
 
     [Header("Ultimate Settings")]
     public float startTimeBtwUltimate;
-    private float timeBtwUltimate = 0;
+    public float timeBtwUltimate = 0;
     public Transform ultimatePos;
     public float ultimateRange;
     public int ultimateDamage;
@@ -163,7 +163,7 @@ public class PlayerAbilities : MonoBehaviour
         if (ultimateClone == null)
         {
             isUlting = false;
-            
+
         }
 
         if (timeBtwUltimate <= 0)

@@ -1,5 +1,9 @@
+using System;
 using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WaveManager : MonoBehaviour
 {
@@ -12,19 +16,44 @@ public class WaveManager : MonoBehaviour
     private Camera mainCamera;
     private List<GameObject> enemiesAlive;
     private int waveValue = 30;
+    public Image WaveOverlay;
+    public TextMeshProUGUI WaveText;
+    private float waveTextAppearTime = 0.5f;
+    private float waveTextAppearTimer = 0f;
+    private String waveText = "Wave 1";
+    private int textIndex = 0;
+    private bool textPhase = true;
+    public GameOver gameOverScreen;
+    public int score = 0;
+    public PlayerAbilities playerAbilities;
+    public SkillTreeManager skillTreeManager;
+    public GameObject SkillTreeOverlay;
+    public GameObject SkillTreePanel;
+    private bool isSkillTreeOpen = false;
+    private bool skillTreeJustOpened = true;
+    private int skillTreeLength = 0;
+
+    void Awake()
+    {
+        waveText = "Wave 1";
+        skillTreeLength = 0;
+    }
 
     void Start()
     {
         mainCamera = Camera.main;
         enemiesAlive = new List<GameObject>();
         waveCooldown = timeBetweenWaves;
+        waveTextAppearTime = timeBetweenWaves / 12;
+        skillTreeManager = GameObject.Find("Skill Tree").GetComponent<SkillTreeManager>();
+
     }
 
     void Update()
     {
         if (!waveInProgress)
         {
-            if (waveCooldown <= 0f)
+            if (waveCooldown <= 0f && !isSkillTreeOpen)
             {
                 StartWave();
             }
@@ -33,8 +62,11 @@ public class WaveManager : MonoBehaviour
                 waveCooldown -= Time.deltaTime;
             }
         }
-
+        OnGUI();
+        OnSkillTree();
     }
+
+
 
     void StartWave()
     {
@@ -46,7 +78,7 @@ public class WaveManager : MonoBehaviour
             Vector2 screenBounds = GetCurrentScreenBounds();
             float leftEdge = mainCamera.transform.position.x - screenBounds.x - 2;
             float rightEdge = mainCamera.transform.position.x + screenBounds.x + 2;
-            Vector3 spawnPos = Random.Range(0, 2) == 0 ? new Vector3(leftEdge, Random.Range(0, 5), 0) : new Vector3(rightEdge, Random.Range(0, 5), 0);
+            Vector3 spawnPos = UnityEngine.Random.Range(0, 2) == 0 ? new Vector3(leftEdge, UnityEngine.Random.Range(0, 5), 0) : new Vector3(rightEdge, UnityEngine.Random.Range(0, 5), 0);
             GameObject enemy = Instantiate(currentWave.enemiesToSpawn[i], spawnPos, Quaternion.identity);
             enemiesAlive.Add(enemy);
         }
@@ -94,7 +126,7 @@ public class WaveManager : MonoBehaviour
         Debug.Log($"Wave {waveCounter + 1} - Wave Value: {newWave.waveValue} - Diggly: {newWave.digglyCost}, Stork: {newWave.storkCost}, Sonny: {newWave.sonnyCost}");
         while (newWave.waveValue >= newWave.digglyCost || newWave.waveValue >= newWave.storkCost || newWave.waveValue >= newWave.sonnyCost)
         {
-            int randomEnemyIndex = Random.Range(0, 3);
+            int randomEnemyIndex = UnityEngine.Random.Range(0, 3);
             switch (randomEnemyIndex)
             {
                 case 0:
@@ -137,11 +169,127 @@ public class WaveManager : MonoBehaviour
     public void RemoveEnemy(GameObject enemy)
     {
         enemiesAlive.Remove(enemy);
+        if (enemy.name.Contains("Diggly"))
+        {
+            score += currentWave.digglyPoints;
+            if (!playerAbilities.isUlting)
+            {
+                playerAbilities.timeBtwUltimate -= skillTreeManager.ApplyHurricaneBuff(currentWave.digglyPoints);
+            }
+        }
+        else if (enemy.name.Contains("Stork"))
+        {
+            score += currentWave.storkPoints;
+            if (!playerAbilities.isUlting)
+            {
+                playerAbilities.timeBtwUltimate -= skillTreeManager.ApplyHurricaneBuff(currentWave.storkPoints);
+            }
+        }
+        else if (enemy.name.Contains("Sonny"))
+        {
+            score += currentWave.sonnyPoints;
+            if (!playerAbilities.isUlting)
+            {
+                playerAbilities.timeBtwUltimate -= skillTreeManager.ApplyHurricaneBuff(currentWave.sonnyPoints);
+            }
+        }
+        gameOverScreen.SetScore(score);
         if (enemiesAlive.Count == 0)
         {
-            waveInProgress = false;
+            if ((waveCounter + 1) % 2 == 0 && skillTreeLength < 10)
+            {
+                isSkillTreeOpen = true;
+                skillTreeJustOpened = true;
+
+            }
+            else
+            {
+                waveInProgress = false;
+            }
+            // waveInProgress = false;
             waveCooldown = timeBetweenWaves;
+            textIndex = 0;
+            waveTextAppearTimer = 0f;
+            WaveText.text = "";
+            waveText = $"Wave {waveCounter + 1}";
+            textPhase = true;
+
             // currentWave.enemiesToSpawn.Clear();
+        }
+    }
+
+    private void OnGUI()
+    {
+        if (!waveInProgress)
+        {
+            WaveOverlay.gameObject.SetActive(true);
+            WaveText.gameObject.SetActive(true);
+            AnimateText();
+        }
+        else
+        {
+            WaveOverlay.gameObject.SetActive(false);
+            WaveText.gameObject.SetActive(false);
+        }
+    }
+
+    private void OnSkillTree()
+    {
+        if ((waveCounter + 1) % 2 == 0 && isSkillTreeOpen && skillTreeLength < 10)
+        {
+            SkillTreeOverlay.SetActive(true);
+            SkillTreePanel.SetActive(true);
+            if (waveCounter + 1 < 20)
+            {
+                Button[] highTierButtons = GameObject.Find("Tier 2").GetComponentsInChildren<Button>();
+                foreach (Button button in highTierButtons)
+                {
+                    button.interactable = false;
+                }
+                highTierButtons = GameObject.Find("Tier 3").GetComponentsInChildren<Button>();
+                foreach (Button button in highTierButtons)
+                {
+                    button.interactable = false;
+                }
+            }
+            if (skillTreeJustOpened)
+            {
+                skillTreeJustOpened = false;
+                skillTreeLength = skillTreeManager.skillTree.activeSkills.Count;
+            }
+            else if (skillTreeLength != skillTreeManager.skillTree.activeSkills.Count)
+            {
+                skillTreeLength = skillTreeManager.skillTree.activeSkills.Count;
+                SkillTreeOverlay.SetActive(false);
+                SkillTreePanel.SetActive(false);
+                isSkillTreeOpen = false;
+                waveInProgress = false;
+            }
+
+        }
+    }
+
+    private void AnimateText()
+    {
+        float totalAnimationProgress = 1 - (waveCooldown / timeBetweenWaves);
+
+        if (totalAnimationProgress < 0.5f)
+        {
+            int charIndex = Mathf.FloorToInt(totalAnimationProgress * 2 * waveText.Length);
+            if (charIndex < waveText.Length && waveText[charIndex] == ' ')
+            {
+                charIndex++;
+            }
+            WaveText.text = waveText.Substring(0, charIndex + 1);
+        }
+        else
+        {
+            int charIndex = Mathf.FloorToInt((1 - totalAnimationProgress) * 2 * waveText.Length);
+            if (charIndex >= 0 && waveText[charIndex] == ' ')
+            {
+                charIndex--;
+            }
+            WaveText.text = waveText.Substring(0, charIndex + 1);
         }
     }
 }
