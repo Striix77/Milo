@@ -58,3 +58,7 @@ https://www.youtube.com/watch?v=zHSWG05byEc , https://www.youtube.com/watch?v=j1
 randomly generated levels?
 
 https://www.youtube.com/watch?v=Oet5jqoX14E ---- Somewhat perfect roadmap example
+
+
+scriptable objects
+procedural animation

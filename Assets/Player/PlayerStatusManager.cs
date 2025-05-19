@@ -86,6 +86,11 @@ public class PlayerStatusManager : MonoBehaviour
             ZoomCamera(zoomedInSize, ref isZoomedOut);
             IncreaseImageOpacity(deathScreenEndOpacity);
         }
+
+        if (transform.position.y < -20)
+        {
+            Die();
+        }
     }
 
     public void TakeDamage(float damage)
