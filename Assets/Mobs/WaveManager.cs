@@ -239,19 +239,19 @@ public class WaveManager : MonoBehaviour
         {
             SkillTreeOverlay.SetActive(true);
             SkillTreePanel.SetActive(true);
-            if (waveCounter + 1 < 20)
-            {
-                Button[] highTierButtons = GameObject.Find("Tier 2").GetComponentsInChildren<Button>();
-                foreach (Button button in highTierButtons)
-                {
-                    button.interactable = false;
-                }
-                highTierButtons = GameObject.Find("Tier 3").GetComponentsInChildren<Button>();
-                foreach (Button button in highTierButtons)
-                {
-                    button.interactable = false;
-                }
-            }
+            // if (waveCounter + 1 < 20)
+            // {
+            //     Button[] highTierButtons = GameObject.Find("Tier 2").GetComponentsInChildren<Button>();
+            //     foreach (Button button in highTierButtons)
+            //     {
+            //         button.interactable = false;
+            //     }
+            //     highTierButtons = GameObject.Find("Tier 3").GetComponentsInChildren<Button>();
+            //     foreach (Button button in highTierButtons)
+            //     {
+            //         button.interactable = false;
+            //     }
+            // }
             if (skillTreeJustOpened)
             {
                 skillTreeJustOpened = false;

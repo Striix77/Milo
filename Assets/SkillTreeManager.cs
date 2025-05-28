@@ -96,7 +96,7 @@ public class SkillTreeManager : MonoBehaviour
         else if (skill.Equals(SkillTree.SkillType.CooldownBoost))
         {
             // Implement Cooldown Boost logic
-            GetComponent<PlayerAbilities>().startTimeBtwAbility1 -= GetComponent<PlayerAbilities>().startTimeBtwAbility1 * 20 / 100;
+            player.GetComponent<PlayerAbilities>().startTimeBtwAbility1 -= player.GetComponent<PlayerAbilities>().startTimeBtwAbility1 * 20 / 100;
             playerMovementStats.DashCooldown -= playerMovementStats.DashCooldown * 20 / 100;
         }
         else if (skill.Equals(SkillTree.SkillType.PeaRate))
@@ -107,7 +107,7 @@ public class SkillTreeManager : MonoBehaviour
         else if (skill.Equals(SkillTree.SkillType.FrostTime))
         {
             // Implement Frost Time logic
-            GetComponent<PlayerAbilities>().freezeTime -= GetComponent<PlayerAbilities>().freezeTime * 20 / 100;
+            player.GetComponent<PlayerAbilities>().freezeTime -= player.GetComponent<PlayerAbilities>().freezeTime * 20 / 100;
         }
         else if (skill.Equals(SkillTree.SkillType.DMGHP))
         {

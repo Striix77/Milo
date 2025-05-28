@@ -85,7 +85,7 @@ public class PlayerStatusManager : MonoBehaviour
             IncreaseImageOpacity(deathScreenEndOpacity);
         }
 
-        if (transform.position.y < -20)
+        if (transform.position.y < -30)
         {
             Die();
         }
