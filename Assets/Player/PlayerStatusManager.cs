@@ -7,18 +7,16 @@ public class PlayerStatusManager : MonoBehaviour
     public float maxHealth = 350f;
     public Slider healthSlider;
     public float health = 350f;
-    private bool takingDamage = false;
     public float damageShakeDuration = 0.1f;
     private float damageShakeTimer = 0f;
 
     [Range(0f, 5f)] public float healthLerpSpeed = 2f;
-    private float targetHealth;
+    public float targetHealth;
 
     private PlayerAbilities playerAbilities;
     private SpriteRenderer spriteRenderer;
     public CinemachineVirtualCamera vCam;
     private CinemachineBasicMultiChannelPerlin vCamNoise;
-    private float velocity = 1f;
     private float shakeVelocity = 1f;
     [Range(0f, 5f)] public float shakeIntensity = 1f;
     [Range(0f, 5f)] public float ShakeStopSpeed = 1f;
@@ -26,7 +24,6 @@ public class PlayerStatusManager : MonoBehaviour
     private bool isDead = false;
     public Image deathScreenImage;
     [Range(0f, 1f)] public float deathScreenEndOpacity = 0.5f;
-    private float normalCameraSize = 5f;
     [Range(1f, 10f)] public float zoomedInSize = 3f;
     [Range(0.1f, 3f)] public float zoomDuration = 0.5f;
     private bool isZoomedOut = false;
@@ -37,6 +34,8 @@ public class PlayerStatusManager : MonoBehaviour
     public PlayerShooter playerShooterScript;
     private Rigidbody2D rb;
     public GameObject HUD;
+    public GameObject SkillTreeUI;
+    public GameObject SkillTreeOverlay;
     public GameObject GameOverScreen;
 
     void Start()
@@ -116,6 +115,8 @@ public class PlayerStatusManager : MonoBehaviour
         Debug.Log("Player has died.");
         GameOverScreen.SetActive(true);
         HUD.SetActive(false);
+        SkillTreeUI.SetActive(false);
+        SkillTreeOverlay.SetActive(false);
         isDead = true;
         deathScreenImage.gameObject.SetActive(true);
         playerMovementScript.enabled = false;

@@ -5,8 +5,9 @@ public class StorkAttack : MonoBehaviour
     public GameObject StorkBombPrefab;
     public Transform StorkBombSpawnPoint;
     [Header("Attack Settings")]
-    public float attackThreshold = 1.5f;  // How close the stork needs to be above the player
-    public float attackCooldown = 2.0f;   // Time between attacks
+    public float attackThreshold = 1.5f;
+    public float attackCooldown = 2.0f;
+    public float allowedAttacks = 1f;
 
     [Header("References")]
     private Transform playerTransform;
@@ -43,7 +44,7 @@ public class StorkAttack : MonoBehaviour
         bool isAbovePlayer = Mathf.Abs(transform.position.x - playerTransform.position.x) < attackThreshold;
 
         // If above player and cooldown expired, attack
-        if ((storkMovement.currentState.Equals(StorkState.MovingLeft) || storkMovement.currentState.Equals(StorkState.MovingRight)) && isAbovePlayer && Time.time > lastAttackTime + attackCooldown)
+        if ((storkMovement.currentState.Equals(StorkState.MovingLeft) || storkMovement.currentState.Equals(StorkState.MovingRight)) && isAbovePlayer && Time.time > lastAttackTime + attackCooldown && allowedAttacks > 0)
         {
             PerformAttack();
             lastAttackTime = Time.time;
@@ -52,6 +53,7 @@ public class StorkAttack : MonoBehaviour
 
     void PerformAttack()
     {
+        allowedAttacks--;
         animator.CrossFade(storkNoBombAnimation, 0.1f, 0);
         GameObject storkBomb = Instantiate(StorkBombPrefab, StorkBombSpawnPoint.position, Quaternion.identity);
         storkBomb.GetComponent<EnemyProjectile>().damage += storkBomb.GetComponent<EnemyProjectile>().damage * dmgModifier / 100;

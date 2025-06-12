@@ -388,8 +388,8 @@ GameObject:
   - component: {fileID: 136581959}
   - component: {fileID: 136581958}
   - component: {fileID: 136581960}
-  - component: {fileID: 136581962}
   - component: {fileID: 136581961}
+  - component: {fileID: 136581962}
   m_Layer: 7
   m_Name: Tilemap
   m_TagString: Ground
@@ -6636,7 +6636,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 155000298}
   m_OnClick:
     m_PersistentCalls:
@@ -7102,7 +7102,9 @@ MonoBehaviour:
   WaveText: {fileID: 1452343845}
   gameOverScreen: {fileID: 917152724}
   score: 0
+  healthBoostAfterWave: 15
   playerAbilities: {fileID: 1981441845}
+  playerStatusManager: {fileID: 1981441847}
   skillTreeManager: {fileID: 1057455479}
   SkillTreeOverlay: {fileID: 1788968004}
   SkillTreePanel: {fileID: 2113916511}
@@ -7201,7 +7203,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 281910320}
   m_OnClick:
     m_PersistentCalls:
@@ -7385,7 +7387,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &286630826
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11208,7 +11210,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 705383234}
   m_OnClick:
     m_PersistentCalls:
@@ -11412,7 +11414,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 718977245}
   m_OnClick:
     m_PersistentCalls:
@@ -14836,7 +14838,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1359260303}
   m_OnClick:
     m_PersistentCalls:
@@ -15168,7 +15170,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1382216860
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15819,7 +15821,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1490692544}
   m_OnClick:
     m_PersistentCalls:
@@ -16709,7 +16711,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Great job! Select a skill to help you in the next 5 waves!
+  m_text: Great job! Select a skill to help you in the next 3 waves!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 351aab16fc27f174cac5c2159bf24ace, type: 2}
   m_sharedMaterial: {fileID: -137241543086237918, guid: 351aab16fc27f174cac5c2159bf24ace, type: 2}
@@ -17081,7 +17083,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1840896350}
   m_OnClick:
     m_PersistentCalls:
@@ -18056,7 +18058,7 @@ MonoBehaviour:
   ability1: {fileID: 428347199955909334, guid: e209d4d98161c454287780a22951cf21, type: 3}
   ability1Effect: {fileID: 6077663534303004148, guid: c27433df1eb3a2f41aa69aeaeb895498, type: 3}
   ability1Image: {fileID: 89282675}
-  startTimeBtwUltimate: 1
+  startTimeBtwUltimate: 120
   timeBtwUltimate: 0
   ultimatePos: {fileID: 777115048}
   ultimateRange: 0
@@ -18117,6 +18119,7 @@ MonoBehaviour:
   health: 350
   damageShakeDuration: 0.1
   healthLerpSpeed: 2
+  targetHealth: 0
   vCam: {fileID: 519420035}
   shakeIntensity: 1.51
   ShakeStopSpeed: 1
@@ -18126,6 +18129,8 @@ MonoBehaviour:
   zoomDuration: 3
   playerShooterScript: {fileID: 1359985767}
   HUD: {fileID: 286417904}
+  SkillTreeUI: {fileID: 2113916511}
+  SkillTreeOverlay: {fileID: 1788968004}
   GameOverScreen: {fileID: 917152722}
 --- !u!1 &2061214860
 GameObject:

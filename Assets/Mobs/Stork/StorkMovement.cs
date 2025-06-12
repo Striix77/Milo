@@ -17,12 +17,13 @@ public class StorkMovement : MonoBehaviour
     public StorkState currentState = StorkState.WaitingLeft;
     private int storkBombAnimation = Animator.StringToHash("StorkWithABomb");
     private Animator animator;
+    private StorkAttack storkAttack;
 
     void Start()
     {
         mainCamera = Camera.main;
         animator = GetComponent<Animator>();
-
+        storkAttack = GetComponent<StorkAttack>();
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         if (spriteRenderer != null)
         {
@@ -102,6 +103,7 @@ public class StorkMovement : MonoBehaviour
                 GetComponent<SpriteRenderer>().enabled = false;
                 GetComponent<Collider2D>().enabled = false;
                 animator.CrossFade(storkBombAnimation, 0.1f, 0);
+                storkAttack.allowedAttacks = 1f; // Reset allowed attacks after waiting
                 break;
 
             case StorkState.WaitingLeft:
@@ -114,6 +116,7 @@ public class StorkMovement : MonoBehaviour
                 GetComponent<SpriteRenderer>().enabled = false;
                 GetComponent<Collider2D>().enabled = false;
                 animator.CrossFade(storkBombAnimation, 0.1f, 0);
+                storkAttack.allowedAttacks = 1f; // Reset allowed attacks after waiting
                 break;
         }
 

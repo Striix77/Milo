@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class SonnyAnimator : MonoBehaviour
@@ -28,6 +29,7 @@ public class SonnyAnimator : MonoBehaviour
     private Transform playerTransform;
     private Animator animator;
     private Collider2D sonnyCollider2D;
+    public List<GameObject> activeSpikes;
 
 
 
@@ -35,7 +37,7 @@ public class SonnyAnimator : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         sonnyCollider2D = GetComponent<Collider2D>();
-
+        activeSpikes = new List<GameObject>();
         GameObject player = GameObject.FindWithTag("Player");
         if (player != null)
         {
@@ -82,12 +84,14 @@ public class SonnyAnimator : MonoBehaviour
                     if (randomIndex == 0)
                     {
                         GameObject spike = Instantiate(SpikePrefab1, SpikeSpawnPoint.position + new Vector3(randomPositionOffset, 0f, 0f), Quaternion.identity);
+                        activeSpikes.Add(spike);
                         spike.GetComponent<EnemyProjectile>().damage += spike.GetComponent<EnemyProjectile>().damage * dmgModifier / 100;
                         spike.transform.localScale = new Vector3(randomSizeMultiplier, randomSizeMultiplier, 1f);
                     }
                     else
                     {
                         GameObject spike = Instantiate(SpikePrefab2, SpikeSpawnPoint.position + new Vector3(randomPositionOffset, 0f, 0f), Quaternion.identity);
+                        activeSpikes.Add(spike);
                         spike.GetComponent<EnemyProjectile>().damage += spike.GetComponent<EnemyProjectile>().damage * dmgModifier / 100;
                         spike.transform.localScale = new Vector3(randomSizeMultiplier, randomSizeMultiplier, 1f);
                     }

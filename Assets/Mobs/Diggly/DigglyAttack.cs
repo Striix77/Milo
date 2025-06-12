@@ -13,7 +13,6 @@ public class DigglyAttack : MonoBehaviour
     public float rockForce = 5f;
     public float rockSpawnRate = 1f; // Time in seconds between rock spawns
     private float timer = 0f;
-    private float attackTimer = 0f;
     public bool isAttacking = false;
     public float dmgModifier = 1f;
 
@@ -41,7 +40,6 @@ public class DigglyAttack : MonoBehaviour
     public void RestartAttack()
     {
         isAttacking = true;
-        attackTimer = 0f;
         timer = 0f;
     }
 

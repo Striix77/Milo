@@ -18,14 +18,12 @@ public class WaveManager : MonoBehaviour
     private int waveValue = 30;
     public Image WaveOverlay;
     public TextMeshProUGUI WaveText;
-    private float waveTextAppearTime = 0.5f;
-    private float waveTextAppearTimer = 0f;
     private String waveText = "Wave 1";
-    private int textIndex = 0;
-    private bool textPhase = true;
     public GameOver gameOverScreen;
     public int score = 0;
+    public int healthBoostAfterWave = 15;
     public PlayerAbilities playerAbilities;
+    public PlayerStatusManager playerStatusManager;
     public SkillTreeManager skillTreeManager;
     public GameObject SkillTreeOverlay;
     public GameObject SkillTreePanel;
@@ -44,7 +42,6 @@ public class WaveManager : MonoBehaviour
         mainCamera = Camera.main;
         enemiesAlive = new List<GameObject>();
         waveCooldown = timeBetweenWaves;
-        waveTextAppearTime = timeBetweenWaves / 12;
         skillTreeManager = GameObject.Find("Skill Tree").GetComponent<SkillTreeManager>();
 
     }
@@ -53,7 +50,7 @@ public class WaveManager : MonoBehaviour
     {
         if (!waveInProgress)
         {
-            if (waveCooldown <= 0f && !isSkillTreeOpen)
+            if (waveCooldown <= 0f && !isSkillTreeOpen && playerStatusManager.health > 0)
             {
                 StartWave();
             }
@@ -72,7 +69,12 @@ public class WaveManager : MonoBehaviour
     {
         Debug.Log($"Starting wave {waveCounter + 1}");
         currentWave = GenerateNewWave();
-
+        playerStatusManager.health += playerStatusManager.health * healthBoostAfterWave / 100;
+        if (playerStatusManager.health > playerStatusManager.maxHealth)
+        {
+            playerStatusManager.health = playerStatusManager.maxHealth;
+        }
+        playerStatusManager.targetHealth = playerStatusManager.health;
         for (int i = 0; i < currentWave.enemiesToSpawn.Count; i++)
         {
             Vector2 screenBounds = GetCurrentScreenBounds();
@@ -91,7 +93,7 @@ public class WaveManager : MonoBehaviour
     {
         EnemyWave originalWave = Resources.Load<EnemyWave>("Waves/DefaultEnemyWave");
         EnemyWave newWave = Instantiate(originalWave);
-        if ((waveCounter + 1) % 5 == 0)
+        if ((waveCounter + 1) % 3 == 0)
         {
             waveValue += waveValue * newWave.waveValueModifier / 100;
             newWave.digglyCost += newWave.digglyCost * newWave.costModifier / 100;
@@ -196,7 +198,7 @@ public class WaveManager : MonoBehaviour
         gameOverScreen.SetScore(score);
         if (enemiesAlive.Count == 0)
         {
-            if ((waveCounter + 1) % 2 == 0 && skillTreeLength < 10)
+            if ((waveCounter + 1) % 3 == 0 && skillTreeLength < 10)
             {
                 isSkillTreeOpen = true;
                 skillTreeJustOpened = true;
@@ -206,15 +208,9 @@ public class WaveManager : MonoBehaviour
             {
                 waveInProgress = false;
             }
-            // waveInProgress = false;
             waveCooldown = timeBetweenWaves;
-            textIndex = 0;
-            waveTextAppearTimer = 0f;
             WaveText.text = "";
             waveText = $"Wave {waveCounter + 1}";
-            textPhase = true;
-
-            // currentWave.enemiesToSpawn.Clear();
         }
     }
 
@@ -235,23 +231,26 @@ public class WaveManager : MonoBehaviour
 
     private void OnSkillTree()
     {
-        if ((waveCounter + 1) % 2 == 0 && isSkillTreeOpen && skillTreeLength < 10)
+        if ((waveCounter + 1) % 3 == 0 && isSkillTreeOpen && skillTreeLength < 10)
         {
             SkillTreeOverlay.SetActive(true);
             SkillTreePanel.SetActive(true);
-            // if (waveCounter + 1 < 20)
-            // {
-            //     Button[] highTierButtons = GameObject.Find("Tier 2").GetComponentsInChildren<Button>();
-            //     foreach (Button button in highTierButtons)
-            //     {
-            //         button.interactable = false;
-            //     }
-            //     highTierButtons = GameObject.Find("Tier 3").GetComponentsInChildren<Button>();
-            //     foreach (Button button in highTierButtons)
-            //     {
-            //         button.interactable = false;
-            //     }
-            // }
+            if (skillTreeLength >= 7)
+            {
+                Button[] highTierButtons = GameObject.Find("Tier 3").GetComponentsInChildren<Button>();
+                foreach (Button button in highTierButtons)
+                {
+                    button.interactable = true;
+                }
+            }
+            else if (skillTreeLength >= 3)
+            {
+                Button[] highTierButtons = GameObject.Find("Tier 2").GetComponentsInChildren<Button>();
+                foreach (Button button in highTierButtons)
+                {
+                    button.interactable = true;
+                }
+            }
             if (skillTreeJustOpened)
             {
                 skillTreeJustOpened = false;

@@ -119,10 +119,9 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!isDashing)
         {
-            Debug.Log("Moving: " + movementInput.y + " " + movementInput.x);
             if (movementInput.x != 0)
             {
-                // check for direction
+                //Check for direction
                 TurnCheck(movementInput);
 
                 float targetVelocity = movementInput.x * MovementStats.MaxWalkSpeed;

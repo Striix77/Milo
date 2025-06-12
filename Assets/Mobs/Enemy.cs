@@ -15,12 +15,24 @@ public class Enemy : MonoBehaviour
         skillTreeManager = GameObject.Find("Skill Tree").GetComponent<SkillTreeManager>();
     }
 
+    void Update()
+    {
+        if (transform.position.y < -30)
+        {
+            DestroyEnemy();
+        }
+    }
+
     void DestroyEnemy()
     {
         waveManager.RemoveEnemy(gameObject);
         spriteRenderer.enabled = false;
         gameObject.GetComponent<Collider2D>().enabled = false;
         GameObject smoke = Instantiate(DeathSmokePrefab, transform.position, Quaternion.identity);
+        if (gameObject.name.Contains("Sonny"))
+        {
+            gameObject.GetComponent<SonnyAnimator>().activeSpikes.ForEach(spike => Destroy(spike));
+        }
         Destroy(smoke, 0.5f);
         Destroy(gameObject);
     }
